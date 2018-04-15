@@ -22,7 +22,7 @@ public class MainActivity extends Activity implements
 
 
     private static final String CLIENT_ID = "0cfd4201950a4a69a67f01bb5bf9d8a6";
-   
+
     private static final String REDIRECT_URI = "Code-Croc-Spotify-DJ://callback";
 
     // Request code that will be used to verify if the result comes from correct activity
