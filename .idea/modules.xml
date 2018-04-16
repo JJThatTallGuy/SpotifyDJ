@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SpotifyDJ.iml" filepath="$PROJECT_DIR$/SpotifyDJ.iml" />
+      <module fileurl="file://C:\Users\Administrator\Documents\School\CSSE\CSSE483\SpotifyDJ\SpotifyDJ\SpotifyDJ.iml" filepath="C:\Users\Administrator\Documents\School\CSSE\CSSE483\SpotifyDJ\SpotifyDJ\SpotifyDJ.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Administrator\Documents\School\CSSE\CSSE483\SpotifyDJ\SpotifyDJ\app\app.iml" filepath="C:\Users\Administrator\Documents\School\CSSE\CSSE483\SpotifyDJ\SpotifyDJ\app\app.iml" />
     </modules>
   </component>
 </project>
