@@ -1,9 +1,9 @@
 package edu.rosehulman.jonesjg1.spotifydj;
 
+
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.spotify.sdk.android.authentication.AuthenticationClient;
@@ -17,29 +17,19 @@ import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
-public class MainActivity extends AppCompatActivity implements
-        SpotifyPlayer.NotificationCallback, ConnectionStateCallback
-{
-
-
+public class MainActivity extends Activity implements
+        SpotifyPlayer.NotificationCallback, ConnectionStateCallback {
     private static final String CLIENT_ID = "0cfd4201950a4a69a67f01bb5bf9d8a6";
-
     private static final String REDIRECT_URI = "Code-Croc-Spotify-DJ://callback";
-
-    // Request code that will be used to verify if the result comes from correct activity
-    // Can be any integer
-    private static final int REQUEST_CODE = 1337;
-
     private Player mPlayer;
+    private static final int REQUEST_CODE = 1337;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
-                AuthenticationResponse.Type.TOKEN,
-                REDIRECT_URI);
+        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
         builder.setScopes(new String[]{"user-read-private", "streaming"});
         AuthenticationRequest request = builder.build();
 
@@ -50,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
-        // Check if result comes from the correct activity
         if (requestCode == REQUEST_CODE) {
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
@@ -74,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     protected void onDestroy() {
-        // VERY IMPORTANT! This must always be called or else you will leak resources
         Spotify.destroyPlayer(this);
         super.onDestroy();
     }
@@ -103,12 +91,7 @@ public class MainActivity extends AppCompatActivity implements
     public void onLoggedIn() {
         Log.d("MainActivity", "User logged in");
 
-        //mPlayer.playUri(null, "spotify:track:2TpxZ7JUBn3uw46aR7qd6V", 0, 0);
-
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.fragment_main, new JoinFragment());
-        ft.commit();
-
+        mPlayer.playUri(null, "spotify:track:2TpxZ7JUBn3uw46aR7qd6V", 0, 0);
     }
 
     @Override
@@ -117,10 +100,9 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onLoginFailed(Error error) {
+    public void onLoginFailed(Error var1) {
         Log.d("MainActivity", "Login failed");
     }
-
 
     @Override
     public void onTemporaryError() {
