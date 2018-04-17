@@ -2,4 +2,7 @@
     <string name="app_name">Spotify DJ</string>
     <string name="join_queue">Join Queue</string>
     <string name="create_queue">Create Queue</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
