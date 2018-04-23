@@ -123,6 +123,8 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void changeFragment(int id) {
         Fragment switchTo = null;
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
         if (id == R.id.joinFragment) {
             switchTo = new JoinOrCreateFragment();
 //            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -136,10 +138,13 @@ public class MainActivity extends AppCompatActivity implements
 //            ft.commit();
         } else if (id == R.id.queue_sign_in) {
             switchTo = new QueueSignInFragment();
+        } else if (id == R.id.fragment_main) {
+            for (Fragment frag : getSupportFragmentManager().getFragments()) {
+                ft.remove(frag).commit();
+            }
         }
 
         if (switchTo != null) {
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.fragment_main, switchTo);
             ft.commit();
         }

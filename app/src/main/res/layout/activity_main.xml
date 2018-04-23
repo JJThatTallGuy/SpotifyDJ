@@ -8,32 +8,13 @@
     android:background="@color/colorBackground"
     android:id="@+id/fragment_main">
 
-<!--
-    <Button
-        android:id="@+id/buttonJoin"
+
+    <TextView
+        android:id="@+id/mainActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="@string/join_queue"
-        android:layout_above="@+id/anchorCenter"
-        android:layout_marginBottom="40dp"
-        />
+        android:layout_centerVertical="true"
+        android:text="Hello World main" />
 
-    <Button
-        android:id="@+id/buttonCreate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="@string/create_queue"
-        android:layout_below="@+id/anchorCenter"
-        android:layout_marginTop="40dp"
-        />
-
-    <View
-        android:id="@+id/anchorCenter"
-        android:layout_centerInParent="true"
-        android:layout_height="0dp"
-        android:layout_width="0dp"
-        />
--->
 </RelativeLayout>
