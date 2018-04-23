@@ -44,7 +44,7 @@ public class JoinOrCreateFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder Abuilder = new AlertDialog.Builder(inflater.getContext());
+                AlertDialog.Builder Abuilder = new AlertDialog.Builder(inflater.getContext(),AlertDialog.THEME_TRADITIONAL);
                 Abuilder.setView(getLayoutInflater().inflate(R.layout.party_create_alert_dialog,null,false));
                 Abuilder.setTitle("Create a Party");
                 Abuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {

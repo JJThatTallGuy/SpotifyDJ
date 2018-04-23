@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorForeground"
+    android:id="@+id/queue_sign_in">
+
+    <TextView
+        android:id="@+id/queueName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="QueueName"
+        android:textSize="25sp" />
+
+    <ImageView
+        android:id="@+id/queuelocked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/numMembers"
+        android:layout_toStartOf="@+id/numMembers"
+        app:srcCompat="@android:drawable/ic_lock_lock" />
+
+    <TextView
+        android:id="@+id/numMembers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:text="#"
+        android:textSize="25sp" />
+
+    <LinearLayout
+        android:id="@+id/song_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+
+        android:layout_below="@+id/queuelocked"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/song_1"
+            android:layout_width="match_parent"
+            android:padding="3dp"
+            android:layout_height="match_parent"
+            android:text="Song 1" />
+
+        <TextView
+            android:id="@+id/song_2"
+            android:layout_width="match_parent"
+            android:padding="3dp"
+            android:layout_height="wrap_content"
+            android:text="Song 2" />
+
+        <TextView
+            android:id="@+id/song_3"
+            android:layout_width="match_parent"
+            android:padding="3dp"
+            android:layout_height="wrap_content"
+            android:text="Song 3" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/password_enter_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp"
+        android:paddingLeft="5dp"
+        android:layout_below="@id/song_list"
+        android:text="Enter Password" />
+
+    <EditText
+        android:id="@+id/password_entry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/password_enter_title"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Password" />
+
+
+</RelativeLayout>

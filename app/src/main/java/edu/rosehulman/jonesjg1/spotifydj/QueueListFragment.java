@@ -1,7 +1,9 @@
 package edu.rosehulman.jonesjg1.spotifydj;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -26,8 +28,20 @@ public class QueueListFragment extends Fragment {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mListener.changeFragment(R.id.queue_sign_in);
+                AlertDialog.Builder Abuilder = new AlertDialog.Builder(view.getContext(),AlertDialog.THEME_TRADITIONAL);
+                Abuilder.setTitle("Party Info");
+                Abuilder.setView(getLayoutInflater().inflate(R.layout.party_signin_alert_dialog,null ,false));
+                Abuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        mListener.changeFragment(R.id.fragment_main);
+                    }
+                });
+
+                Abuilder.setNegativeButton(android.R.string.cancel,null);
+            Abuilder.create().show();
             }
+
         });
 
         return view;
