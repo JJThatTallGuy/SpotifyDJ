@@ -9,12 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
-public class QueueListFragment extends Fragment {
+public class QueueSignInFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public QueueListFragment() {
+    public QueueSignInFragment() {
         // Required empty public constructor
     }
 
@@ -22,13 +21,7 @@ public class QueueListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.party_view, container, false);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mListener.changeFragment(R.id.queue_sign_in);
-            }
-        });
+        View view = inflater.inflate(R.layout.party_signin, container, false);
 
         return view;
     }

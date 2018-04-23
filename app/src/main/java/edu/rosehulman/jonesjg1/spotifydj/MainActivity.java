@@ -3,6 +3,7 @@ package edu.rosehulman.jonesjg1.spotifydj;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -121,13 +122,25 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void changeFragment(int id) {
+        Fragment switchTo = null;
         if (id == R.id.joinFragment) {
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_main, new JoinOrCreateFragment());
-            ft.commit();
+            switchTo = new JoinOrCreateFragment();
+//            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//            ft.replace(R.id.fragment_main, new JoinOrCreateFragment());
+//            ft.commit();
         } else if (id == R.id.queue_in_list) {
+            switchTo = new QueueListFragment();
+//            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//            ft.replace(R.id.fragment_main, new QueueListFragment());
+//            getSupportFragmentManager().popBackStackImmediate();
+//            ft.commit();
+        } else if (id == R.id.queue_sign_in) {
+            switchTo = new QueueSignInFragment();
+        }
+
+        if (switchTo != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_main, new QueueListFragment());
+            ft.replace(R.id.fragment_main, switchTo);
             ft.commit();
         }
     }
