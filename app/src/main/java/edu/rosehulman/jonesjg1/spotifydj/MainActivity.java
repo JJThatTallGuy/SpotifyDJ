@@ -21,7 +21,7 @@ import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
 public class MainActivity extends AppCompatActivity implements
-        SpotifyPlayer.NotificationCallback, ConnectionStateCallback {
+        SpotifyPlayer.NotificationCallback, ConnectionStateCallback, OnFragmentInteractionListener {
     private static final String CLIENT_ID = "0cfd4201950a4a69a67f01bb5bf9d8a6";
     private static final String REDIRECT_URI = "Code-Croc-Spotify-DJ://callback";
     private Player mPlayer;
@@ -96,11 +96,7 @@ public class MainActivity extends AppCompatActivity implements
         Log.d("MainActivity", "User logged in");
 
         mPlayer.playUri(null, "spotify:track:2TpxZ7JUBn3uw46aR7qd6V", 0, 0);
-
-        mFragmentTransaction = getSupportFragmentManager().beginTransaction();
-        mFragmentTransaction.replace(R.id.fragment_main, new JoinOrCreateFragment());
-        mFragmentTransaction.commit();
-
+        changeFragment(R.id.joinFragment);
     }
 
     @Override
@@ -122,4 +118,14 @@ public class MainActivity extends AppCompatActivity implements
     public void onConnectionMessage(String message) {
         Log.d("MainActivity", "Received connection message: " + message);
     }
+
+    @Override
+    public void changeFragment(int id) {
+        if (id == R.id.joinFragment) {
+            mFragmentTransaction = getSupportFragmentManager().beginTransaction();
+            mFragmentTransaction.replace(R.id.fragment_main, new JoinOrCreateFragment());
+            mFragmentTransaction.commit();
+        }
+    }
+
 }
