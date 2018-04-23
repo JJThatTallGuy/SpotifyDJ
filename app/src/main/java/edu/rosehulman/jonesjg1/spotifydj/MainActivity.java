@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements
     private static final String REDIRECT_URI = "Code-Croc-Spotify-DJ://callback";
     private Player mPlayer;
     private static final int REQUEST_CODE = 1337;
+    private boolean isPaused;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,48 @@ public class MainActivity extends AppCompatActivity implements
         AuthenticationRequest request = builder.build();
 
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
+
+        isPaused = false;
+        Button pauseButton = findViewById(R.id.pause_button);
+        pauseButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                if (isPaused) {
+                    mPlayer.resume(null);
+                    isPaused = false;
+                } else {
+                    mPlayer.pause(null);
+                    isPaused = true;
+                }
+            }
+        });
+
+        Button heyJude = findViewById(R.id.play_middle);
+        Button stairwayHeaven = findViewById(R.id.play_top);
+        Button hotelCalifornia = findViewById(R.id.play_bottom);
+
+        heyJude.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        stairwayHeaven.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        hotelCalifornia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
     }
 
     @Override
