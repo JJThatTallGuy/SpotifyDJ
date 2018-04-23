@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLoggedIn() {
         Log.d("MainActivity", "User logged in");
-        
+
         changeFragment(R.id.joinFragment);
     }
 
@@ -180,10 +180,10 @@ public class MainActivity extends AppCompatActivity implements
 
         if (id == R.id.joinFragment) {
             switchTo = new JoinOrCreateFragment();
+
         } else if (id == R.id.queue_in_list) {
             switchTo = new QueueListFragment();
-        } else if (id == R.id.queue_sign_in) {
-            switchTo = new QueueSignInFragment();
+
         } else if (id == R.id.fragment_main) {
             for (Fragment frag : getSupportFragmentManager().getFragments()) {
                 ft.remove(frag).commit();
@@ -192,6 +192,7 @@ public class MainActivity extends AppCompatActivity implements
 
         if (switchTo != null) {
             ft.replace(R.id.fragment_main, switchTo);
+            ft.addToBackStack(null);
             ft.commit();
         }
     }
