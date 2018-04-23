@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.rosehulman.jonesjg1.spotifydj.MainActivity"
+    android:background="@color/colorBackground"
+    android:id="@+id/queue_fragment">
+
+
+    <Button
+        android:id="@+id/play_middle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Play Hey Jude" />
+
+    <Button
+        android:id="@+id/play_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/play_middle"
+        android:layout_marginBottom="40dp"
+        android:text="Play Stairway To Heaven" />
+
+    <Button
+        android:id="@+id/play_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/play_middle"
+        android:layout_marginTop="40dp"
+        android:text="Play Hotel California" />
+
+    <Button
+        android:id="@+id/pause_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:text="Pause" />
+
+
+</RelativeLayout>
