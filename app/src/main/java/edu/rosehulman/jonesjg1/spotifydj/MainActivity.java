@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements
     private static final String REDIRECT_URI = "Code-Croc-Spotify-DJ://callback";
     private Player mPlayer;
     private static final int REQUEST_CODE = 1337;
+    private FragmentTransaction mFragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,9 +96,11 @@ public class MainActivity extends AppCompatActivity implements
         Log.d("MainActivity", "User logged in");
 
         mPlayer.playUri(null, "spotify:track:2TpxZ7JUBn3uw46aR7qd6V", 0, 0);
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.fragment_main, new JoinFragment());
-        ft.commit();
+
+        mFragmentTransaction = getSupportFragmentManager().beginTransaction();
+        mFragmentTransaction.replace(R.id.fragment_main, new JoinOrCreateFragment());
+        mFragmentTransaction.commit();
+
     }
 
     @Override
