@@ -4,21 +4,17 @@ package edu.rosehulman.jonesjg1.spotifydj;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class JoinOrCreateFragment extends Fragment {
+
+public class QueueListFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public JoinOrCreateFragment() {
+    public QueueListFragment() {
         // Required empty public constructor
     }
 
@@ -26,27 +22,7 @@ public class JoinOrCreateFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.join_or_create, container, false);
-
-        Button joinButton = view.findViewById(R.id.buttonJoin);
-        Button createButton = view.findViewById(R.id.buttonCreate);
-
-        joinButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Log.d(getString(R.string.button_conf), "Join button clicked.");
-                mListener.changeFragment(R.id.queue_in_list);
-            }
-        });
-
-        createButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Log.d(getString(R.string.button_conf), "Create button clicked.");
-            }
-        });
+        View view = inflater.inflate(R.layout.party_view, container, false);
 
         return view;
     }
@@ -67,4 +43,5 @@ public class JoinOrCreateFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
 }
