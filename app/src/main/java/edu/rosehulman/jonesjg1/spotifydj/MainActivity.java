@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements
     private static final String REDIRECT_URI = "Code-Croc-Spotify-DJ://callback";
     private Player mPlayer;
     private static final int REQUEST_CODE = 1337;
-    private boolean isPaused;
+    private Button buttonPausePlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,19 +41,17 @@ public class MainActivity extends AppCompatActivity implements
 
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
 
-        isPaused = false;
-        Button pauseButton = findViewById(R.id.pause_button);
-        pauseButton.setOnClickListener(new View.OnClickListener() {
+        buttonPausePlay = findViewById(R.id.pause_button);
+        buttonPausePlay.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                if (isPaused) {
-                    mPlayer.resume(null);
-                    isPaused = false;
-                } else {
+                if (mPlayer.getPlaybackState().isPlaying) {
                     mPlayer.pause(null);
-                    isPaused = true;
+                } else {
+                    mPlayer.resume(null);
                 }
+                updatePausePlay();
             }
         });
 
@@ -64,24 +62,37 @@ public class MainActivity extends AppCompatActivity implements
         heyJude.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                mPlayer.playUri(null, "spotify:track:0aym2LBJBk9DAYuHHutrIl", 0, 0);
+                updatePausePlay();
             }
         });
 
         stairwayHeaven.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                mPlayer.playUri(null, "spotify:track:5CQ30WqJwcep0pYcV4AMNc", 0, 0);
+                updatePausePlay();
             }
         });
 
         hotelCalifornia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                mPlayer.playUri(null, "spotify:track:40riOy7x9W7GXjyGp4pjAv", 0, 0);
+                updatePausePlay();
             }
         });
 
+    }
+
+    public void updatePausePlay() {
+        String s;
+        if (mPlayer.getPlaybackState().isPlaying) {
+            s = getString(R.string.play);
+        } else {
+            s = getString(R.string.pause);
+        }
+        buttonPausePlay.setText(s);
     }
 
     @Override
@@ -138,8 +149,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLoggedIn() {
         Log.d("MainActivity", "User logged in");
-
-        mPlayer.playUri(null, "spotify:track:2TpxZ7JUBn3uw46aR7qd6V", 0, 0);
+        
         changeFragment(R.id.joinFragment);
     }
 
@@ -170,15 +180,8 @@ public class MainActivity extends AppCompatActivity implements
 
         if (id == R.id.joinFragment) {
             switchTo = new JoinOrCreateFragment();
-//            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//            ft.replace(R.id.fragment_main, new JoinOrCreateFragment());
-//            ft.commit();
         } else if (id == R.id.queue_in_list) {
             switchTo = new QueueListFragment();
-//            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//            ft.replace(R.id.fragment_main, new QueueListFragment());
-//            getSupportFragmentManager().popBackStackImmediate();
-//            ft.commit();
         } else if (id == R.id.queue_sign_in) {
             switchTo = new QueueSignInFragment();
         } else if (id == R.id.fragment_main) {

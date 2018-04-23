@@ -6,4 +6,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="button_conf">BUTTON_CONFIRMATION</string>
+    <string name="pause">Pause</string>
+    <string name="play">Play</string>
 </resources>
