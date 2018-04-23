@@ -1,7 +1,9 @@
 package edu.rosehulman.jonesjg1.spotifydj;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -17,14 +19,14 @@ import android.widget.TextView;
 public class JoinOrCreateFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-
+    private Context mContext;
     public JoinOrCreateFragment() {
         // Required empty public constructor
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.join_or_create, container, false);
 
@@ -32,10 +34,8 @@ public class JoinOrCreateFragment extends Fragment {
         Button createButton = view.findViewById(R.id.buttonCreate);
 
         joinButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
-                Log.d(getString(R.string.button_conf), "Join button clicked.");
                 mListener.changeFragment(R.id.queue_in_list);
             }
         });
@@ -44,7 +44,19 @@ public class JoinOrCreateFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
-                Log.d(getString(R.string.button_conf), "Create button clicked.");
+                AlertDialog.Builder Abuilder = new AlertDialog.Builder(inflater.getContext());
+                Abuilder.setView(getLayoutInflater().inflate(R.layout.party_create_alert_dialog,null,false));
+                Abuilder.setTitle("Create a Party");
+                Abuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        mListener.changeFragment(R.id.fragment_main);
+                    }
+                });
+
+                Abuilder.setNegativeButton(android.R.string.cancel, null);
+
+                Abuilder.create().show();
             }
         });
 
