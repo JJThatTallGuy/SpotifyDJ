@@ -122,14 +122,8 @@ public class MainActivity extends AppCompatActivity implements
         Log.d("MainActivity", "Received connection message: " + message);
     }
 
-    public void playSong(String uri){
-        mPlayer.playUri(null,uri,0,0);
-    }
-    public void play(){
-        mPlayer.resume(null);
-    }
-    public void pause(){
-        mPlayer.pause(null);
+    public Player getPlayer() {
+        return mPlayer;
     }
 
     @Override
@@ -143,14 +137,9 @@ public class MainActivity extends AppCompatActivity implements
         } else if (id == R.id.queue_in_list) {
             switchTo = new QueueListFragment();
 
-        }else if (id == R.id.queue_fragment){
-            switchTo = new QueueFragment();
-
         }
-        else if (id == R.id.fragment_main) {
-            for (Fragment frag : getSupportFragmentManager().getFragments()) {
-                ft.remove(frag).commit();
-            }
+        else if (id == R.id.queue_fragment) {
+            switchTo = new QueueFragment();
         }
 
         if (switchTo != null) {

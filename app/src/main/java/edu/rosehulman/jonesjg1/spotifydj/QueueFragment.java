@@ -1,6 +1,7 @@
 package edu.rosehulman.jonesjg1.spotifydj;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,24 +14,23 @@ import android.widget.TextView;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class QueueFragment extends Fragment {
     private Player mPlayer;
+    private MainActivity mActivity;
     private Button buttonPausePlay;
     private OnFragmentInteractionListener mListener;
 
     public QueueFragment() {
         // Required empty public constructor
     }
-
-
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.queue_fragment, container, false);
+        mPlayer = ((MainActivity) getActivity()).getPlayer();
 
         buttonPausePlay = view.findViewById(R.id.pause_button);
         buttonPausePlay.setOnClickListener(new View.OnClickListener() {
