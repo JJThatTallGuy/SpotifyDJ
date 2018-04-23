@@ -50,7 +50,7 @@ public class JoinOrCreateFragment extends Fragment {
                 Abuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        mListener.changeFragment(R.id.fragment_main);
+                        mListener.changeFragment(R.id.queue_fragment);
                     }
                 });
 

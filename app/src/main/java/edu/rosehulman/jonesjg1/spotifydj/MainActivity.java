@@ -3,6 +3,7 @@ package edu.rosehulman.jonesjg1.spotifydj;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements
     private static final String REDIRECT_URI = "Code-Croc-Spotify-DJ://callback";
     private Player mPlayer;
     private static final int REQUEST_CODE = 1337;
-    private Button buttonPausePlay;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,58 +42,6 @@ public class MainActivity extends AppCompatActivity implements
 
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
 
-        buttonPausePlay = findViewById(R.id.pause_button);
-        buttonPausePlay.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                if (mPlayer.getPlaybackState().isPlaying) {
-                    mPlayer.pause(null);
-                } else {
-                    mPlayer.resume(null);
-                }
-                updatePausePlay();
-            }
-        });
-
-        Button heyJude = findViewById(R.id.play_middle);
-        Button stairwayHeaven = findViewById(R.id.play_top);
-        Button hotelCalifornia = findViewById(R.id.play_bottom);
-
-        heyJude.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mPlayer.playUri(null, "spotify:track:0aym2LBJBk9DAYuHHutrIl", 0, 0);
-                updatePausePlay();
-            }
-        });
-
-        stairwayHeaven.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mPlayer.playUri(null, "spotify:track:5CQ30WqJwcep0pYcV4AMNc", 0, 0);
-                updatePausePlay();
-            }
-        });
-
-        hotelCalifornia.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mPlayer.playUri(null, "spotify:track:40riOy7x9W7GXjyGp4pjAv", 0, 0);
-                updatePausePlay();
-            }
-        });
-
-    }
-
-    public void updatePausePlay() {
-        String s;
-        if (mPlayer.getPlaybackState().isPlaying) {
-            s = getString(R.string.play);
-        } else {
-            s = getString(R.string.pause);
-        }
-        buttonPausePlay.setText(s);
     }
 
     @Override
@@ -173,6 +122,16 @@ public class MainActivity extends AppCompatActivity implements
         Log.d("MainActivity", "Received connection message: " + message);
     }
 
+    public void playSong(String uri){
+        mPlayer.playUri(null,uri,0,0);
+    }
+    public void play(){
+        mPlayer.resume(null);
+    }
+    public void pause(){
+        mPlayer.pause(null);
+    }
+
     @Override
     public void changeFragment(int id) {
         Fragment switchTo = null;
@@ -184,7 +143,11 @@ public class MainActivity extends AppCompatActivity implements
         } else if (id == R.id.queue_in_list) {
             switchTo = new QueueListFragment();
 
-        } else if (id == R.id.fragment_main) {
+        }else if (id == R.id.queue_fragment){
+            switchTo = new QueueFragment();
+
+        }
+        else if (id == R.id.fragment_main) {
             for (Fragment frag : getSupportFragmentManager().getFragments()) {
                 ft.remove(frag).commit();
             }
