@@ -25,7 +25,7 @@
         android:layout_below="@+id/Name_input_title"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Party Name" />
+        android:hint="Party Name" />
 
     <TextView
         android:id="@+id/password_change_title"
@@ -38,7 +38,7 @@
         android:text="Password" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/password_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/password_change_title"
@@ -46,5 +46,5 @@
         android:layout_below="@+id/password_change_title"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Optional" />
+        android:hint="Optional" />
 </RelativeLayout>

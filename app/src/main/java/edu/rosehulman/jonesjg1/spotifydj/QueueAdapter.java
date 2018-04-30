@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -21,10 +23,12 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.ViewHolder> 
     private RecyclerView mRecyclerView;
     private ArrayList<Party> mParties;
 
+
     public QueueAdapter(Context context, RecyclerView recyclerView) {
         mContext = context;
         mRecyclerView = recyclerView;
         mParties = new ArrayList<>();
+
     }
 
     public void addParty(Party party) {
