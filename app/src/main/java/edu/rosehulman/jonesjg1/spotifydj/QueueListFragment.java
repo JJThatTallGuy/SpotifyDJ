@@ -1,9 +1,7 @@
 package edu.rosehulman.jonesjg1.spotifydj;
 
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 
 public class QueueListFragment extends Fragment {
@@ -49,14 +46,10 @@ public class QueueListFragment extends Fragment {
 //
 //        });
 
-        final QueueAdapter adapter = new QueueAdapter(getContext(), view);
+        final QueueListAdapter adapter = new QueueListAdapter(getContext(), view);
         view.setAdapter(adapter);
 
         // Hardcoded queues before we implement Firebase
-        adapter.addParty(new Party("NoPass", ""));
-        adapter.addParty(new Party("PassProtected", "password"));
-        adapter.addParty(new Party("StillNoPass", ""));
-
         return view;
     }
 

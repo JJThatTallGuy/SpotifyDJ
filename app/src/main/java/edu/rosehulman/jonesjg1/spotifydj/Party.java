@@ -6,6 +6,16 @@ public class Party {
     private String mPass;
     private boolean mIsPasswordProtected;
     private int mMembers;
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    private String key;
     // private ArrayList of users
 
     public Party() {
@@ -58,5 +68,12 @@ public class Party {
 
     public void setmPass(String mPass) {
         this.mPass = mPass;
+    }
+
+    public void setValues(Party updatedParty) {
+        setmMembers(updatedParty.getmMembers());
+        setmPass(updatedParty.getmPass());
+        setmIsPasswordProtected(updatedParty.ismIsPasswordProtected());
+        setmName(updatedParty.getmName());
     }
 }
