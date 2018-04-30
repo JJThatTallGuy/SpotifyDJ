@@ -11,7 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,6 +24,8 @@ public class JoinOrCreateFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private Context mContext;
+    private DatabaseReference PartyRef;
+    private Party mParty;
     public JoinOrCreateFragment() {
         // Required empty public constructor
     }
@@ -29,7 +35,7 @@ public class JoinOrCreateFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.join_or_create, container, false);
-
+        this.PartyRef = FirebaseDatabase.getInstance().getReference().child("Parties");
         Button joinButton = view.findViewById(R.id.buttonJoin);
         Button createButton = view.findViewById(R.id.buttonCreate);
 
@@ -45,11 +51,20 @@ public class JoinOrCreateFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder Abuilder = new AlertDialog.Builder(inflater.getContext(),AlertDialog.THEME_TRADITIONAL);
-                Abuilder.setView(getLayoutInflater().inflate(R.layout.party_create_alert_dialog,null,false));
+                View popup = getLayoutInflater().inflate(R.layout.party_create_alert_dialog,null,false);
+                Abuilder.setView(popup);
                 Abuilder.setTitle("Create a Party");
+                final EditText title = popup.findViewById(R.id.name_edit);
+
+                final EditText password = popup.findViewById(R.id.password_edit);
+
                 Abuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        String titletext = title.getText().toString();
+                        String pass = password.getText().toString();
+                        mParty = new Party(title.getText().toString(),password.getText().toString());
+                        PartyRef.push().setValue(mParty);
                         mListener.changeFragment(R.id.queue_fragment);
                     }
                 });
