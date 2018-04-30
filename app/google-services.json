@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "172075787205",
+    "firebase_url": "https://spotifydj-best.firebaseio.com",
+    "project_id": "spotifydj-best",
+    "storage_bucket": "spotifydj-best.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:172075787205:android:dd228f817200d3c2",
+        "android_client_info": {
+          "package_name": "edu.rosehulman.jonesjg1.spotifydj"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "172075787205-bovul1jf8sd9tuek70kip0akp1pu49b9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.rosehulman.jonesjg1.spotifydj",
+            "certificate_hash": "39a104e7bbbdefc78ccff0da3fe77fc857153a79"
+          }
+        },
+        {
+          "client_id": "172075787205-di03qgb1g7mfg2pivcj3ic4rbrk7ia9b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkKZfbKo_57_244dKS_i1-oI0wVdvmG3Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "172075787205-di03qgb1g7mfg2pivcj3ic4rbrk7ia9b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
