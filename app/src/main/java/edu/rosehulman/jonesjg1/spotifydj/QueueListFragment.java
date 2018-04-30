@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,25 +26,36 @@ public class QueueListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.party_view, container, false);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder Abuilder = new AlertDialog.Builder(view.getContext(),AlertDialog.THEME_TRADITIONAL);
-                Abuilder.setTitle("Party Info");
-                Abuilder.setView(getLayoutInflater().inflate(R.layout.party_signin_alert_dialog,null ,false));
-                Abuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        mListener.changeFragment(R.id.queue_fragment);
-                    }
-                });
+        RecyclerView view = (RecyclerView) inflater.inflate(R.layout.recycler_view, container, false);
+        view.setLayoutManager(new LinearLayoutManager(getContext()));
+        view.setHasFixedSize(true);
 
-                Abuilder.setNegativeButton(android.R.string.cancel,null);
-            Abuilder.create().show();
-            }
+//        view.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                AlertDialog.Builder Abuilder = new AlertDialog.Builder(view.getContext(),AlertDialog.THEME_TRADITIONAL);
+//                Abuilder.setTitle("Party Info");
+//                Abuilder.setView(getLayoutInflater().inflate(R.layout.party_signin_alert_dialog,null ,false));
+//                Abuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        mListener.changeFragment(R.id.queue_fragment);
+//                    }
+//                });
+//
+//                Abuilder.setNegativeButton(android.R.string.cancel,null);
+//                 Abuilder.create().show();
+//            }
+//
+//        });
 
-        });
+        final QueueAdapter adapter = new QueueAdapter(getContext(), view);
+        view.setAdapter(adapter);
+
+        // Hardcoded queues before we implement Firebase
+        adapter.addParty(new Party("NoPass", ""));
+        adapter.addParty(new Party("PassProtected", "password"));
+        adapter.addParty(new Party("StillNoPass", ""));
 
         return view;
     }
