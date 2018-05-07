@@ -35,7 +35,18 @@
         android:layout_alignParentStart="true"
         android:layout_marginLeft="24dp"
         android:layout_marginStart="24dp"
-        android:text="Button" />
+        android:text="Search" />
+
+    <Button
+        android:id="@+id/random_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_toEndOf="@+id/pause_button"
+        android:layout_toRightOf="@+id/pause_button"
+        android:text="Add Random" />
 
 
 </RelativeLayout>

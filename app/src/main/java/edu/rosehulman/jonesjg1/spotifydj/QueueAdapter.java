@@ -8,6 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
@@ -23,12 +28,18 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
     private Context mContext;
     private RecyclerView mRecyclerView;
     private Player mPlayer;
+    private DatabaseReference sRef;
+    private Party mParty;
 
-    public QueueAdapter(Context context, RecyclerView recyclerView, Player player) {
+    public QueueAdapter(Context context, RecyclerView recyclerView, Player player, Party party) {
         mContext = context;
         mRecyclerView = recyclerView;
         mSongs = new ArrayList<>();
         mPlayer = player;
+        mParty = party;
+        sRef = FirebaseDatabase.getInstance().getReference().child("Parties").child(mParty.getKey()).child("Songs");
+
+
     }
 
     public void addSong(Song song) {
@@ -66,6 +77,50 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
         @Override
         public void onClick(View view) {
             mPlayer.playUri(null, mSongs.get(getAdapterPosition()).getmUri(), 0, 0);
+        }
+    }
+
+    private class PartyChildEventListener implements ChildEventListener {
+        @Override
+        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            Song song = dataSnapshot.getValue(Song.class);
+
+            song.setKey(dataSnapshot.getKey());
+            mSongs.add(song);
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            String key = dataSnapshot.getKey();
+            Song updatedSong = dataSnapshot.getValue(Song.class);
+            for(Song song : mSongs){
+                if(song.getKey().equals(key)){
+                   song.setValues(updatedSong);
+                    notifyDataSetChanged();
+                    return;
+                }
+            }
+        }
+
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+            String key = dataSnapshot.getKey();
+            for(Song s : mSongs){
+                mSongs.remove(s);
+                notifyDataSetChanged();
+                return;
+            }
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
         }
     }
 }

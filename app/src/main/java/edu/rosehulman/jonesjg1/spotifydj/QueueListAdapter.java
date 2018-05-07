@@ -94,6 +94,7 @@ public class QueueListAdapter extends RecyclerView.Adapter<QueueListAdapter.Queu
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     ((MainActivity) mContext).changeFragment(R.id.queue_fragment);
+                    ((MainActivity) mContext).setCurrentQueue(party);
                 }
             });
 
@@ -106,6 +107,7 @@ public class QueueListAdapter extends RecyclerView.Adapter<QueueListAdapter.Queu
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             Party party = dataSnapshot.getValue(Party.class);
+
             party.setKey(dataSnapshot.getKey());
             mParties.add(party);
             notifyDataSetChanged();

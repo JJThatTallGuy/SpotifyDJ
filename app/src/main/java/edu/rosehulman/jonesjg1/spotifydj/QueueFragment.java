@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.database.FirebaseDatabase;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
@@ -28,6 +29,12 @@ public class QueueFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -38,8 +45,16 @@ public class QueueFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
 
-        final QueueAdapter adapter = new QueueAdapter(getContext(), recyclerView, mPlayer);
+        final QueueAdapter adapter = new QueueAdapter(getContext(), recyclerView, mPlayer,((MainActivity) getActivity()).getParty());
         recyclerView.setAdapter(adapter);
+
+        Button randbutton = view.findViewById(R.id.random_button);
+        randbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapter.addSong(new Song("Hey Jude","spotify:track:0aym2LBJBk9DAYuHHutrIl"));
+            }
+        });
 
         Button searchbutton = view.findViewById(R.id.search_button);
         searchbutton.setOnClickListener(new View.OnClickListener() {

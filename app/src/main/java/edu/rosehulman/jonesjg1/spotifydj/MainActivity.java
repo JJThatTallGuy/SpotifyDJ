@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements
     private Player mPlayer;
     private static final int REQUEST_CODE = 1337;
     private SpotifyService spoty;
+    private Party party;
 
 
     @Override
@@ -135,6 +136,10 @@ public class MainActivity extends AppCompatActivity implements
     public Player getPlayer() {
         return mPlayer;
     }
+    
+    public void setCurrentQueue(Party party){
+        this.party = party;
+    }
 
     @Override
     public void changeFragment(int id) {
@@ -163,4 +168,7 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    public Party getParty() {
+        return party;
+    }
 }
