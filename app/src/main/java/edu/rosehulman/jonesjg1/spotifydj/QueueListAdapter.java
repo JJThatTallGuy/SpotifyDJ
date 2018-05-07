@@ -7,8 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -84,6 +86,7 @@ public class QueueListAdapter extends RecyclerView.Adapter<QueueListAdapter.Queu
 
             TextView name = popup.findViewById(R.id.queueName);
             TextView numMembers = popup.findViewById(R.id.numMembers);
+            final EditText password = popup.findViewById(R.id.password_entry);
 
             name.setText(party.getmName());
             numMembers.setText(party.getmMembers()+"");
@@ -93,8 +96,12 @@ public class QueueListAdapter extends RecyclerView.Adapter<QueueListAdapter.Queu
             Abuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    ((MainActivity) mContext).changeFragment(R.id.queue_fragment);
-                    ((MainActivity) mContext).setCurrentQueue(party);
+                    if (party.getmPass().isEmpty() || password.getText().toString().equals(party.getmPass())) {
+                        ((MainActivity) mContext).changeFragment(R.id.queue_fragment);
+                        ((MainActivity) mContext).setCurrentQueue(party);
+                    } else {
+                        Toast.makeText(mContext, "Password Incorrect", Toast.LENGTH_LONG).show();
+                    }
                 }
             });
 

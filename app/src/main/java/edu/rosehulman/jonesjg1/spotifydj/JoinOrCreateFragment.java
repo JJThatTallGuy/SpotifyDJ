@@ -14,8 +14,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +40,8 @@ public class JoinOrCreateFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.join_or_create, container, false);
         this.PartyRef = FirebaseDatabase.getInstance().getReference().child("Parties");
+        this.PartyRef.keepSynced(true);
+
         Button joinButton = view.findViewById(R.id.buttonJoin);
         Button createButton = view.findViewById(R.id.buttonCreate);
 
@@ -65,7 +71,8 @@ public class JoinOrCreateFragment extends Fragment {
                         String pass = password.getText().toString();
                         mParty = new Party(title.getText().toString(),password.getText().toString());
                         PartyRef.push().setValue(mParty);
-                        mListener.changeFragment(R.id.queue_fragment);
+                        ((MainActivity) getActivity()).setCurrentQueue(mParty);
+//                        mListener.changeFragment(R.id.queue_fragment);
                     }
                 });
 
@@ -94,4 +101,5 @@ public class JoinOrCreateFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
 }

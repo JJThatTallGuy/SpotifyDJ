@@ -88,7 +88,7 @@
         android:layout_below="@+id/password_enter_title"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Password" />
+        android:hint="Password" />
 
 
 </RelativeLayout>
