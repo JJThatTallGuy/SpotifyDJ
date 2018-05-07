@@ -27,25 +27,6 @@ public class QueueListFragment extends Fragment {
         view.setLayoutManager(new LinearLayoutManager(getContext()));
         view.setHasFixedSize(true);
 
-//        view.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                AlertDialog.Builder Abuilder = new AlertDialog.Builder(view.getContext(),AlertDialog.THEME_TRADITIONAL);
-//                Abuilder.setTitle("Party Info");
-//                Abuilder.setView(getLayoutInflater().inflate(R.layout.party_signin_alert_dialog,null ,false));
-//                Abuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        mListener.changeFragment(R.id.queue_fragment);
-//                    }
-//                });
-//
-//                Abuilder.setNegativeButton(android.R.string.cancel,null);
-//                 Abuilder.create().show();
-//            }
-//
-//        });
-
         final QueueListAdapter adapter = new QueueListAdapter(getContext(), view);
         view.setAdapter(adapter);
 

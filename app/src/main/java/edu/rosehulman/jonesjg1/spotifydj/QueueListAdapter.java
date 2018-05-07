@@ -18,7 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class QueueListAdapter extends RecyclerView.Adapter<QueueListAdapter.ViewHolder> {
+public class QueueListAdapter extends RecyclerView.Adapter<QueueListAdapter.QueueListViewHolder> {
 
     private Context mContext;
     private RecyclerView mRecyclerView;
@@ -41,13 +41,13 @@ public class QueueListAdapter extends RecyclerView.Adapter<QueueListAdapter.View
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public QueueListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.party_view, parent, false);
-        return new ViewHolder(view);
+        return new QueueListViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(QueueListViewHolder holder, int position) {
         holder.party = mParties.get(position);
         holder.mName.setText(mParties.get(position).getmName());
         holder.mMembers.setText(mParties.get(position).getmMembers() + "");
@@ -61,13 +61,13 @@ public class QueueListAdapter extends RecyclerView.Adapter<QueueListAdapter.View
         return mParties.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class QueueListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private Party party;
         private TextView mName;
         private ImageView mLocked;
         private TextView mMembers;
 
-        public ViewHolder(View itemView) {
+        public QueueListViewHolder(View itemView) {
             super(itemView);
             mName = itemView.findViewById(R.id.queueName);
             mLocked = itemView.findViewById(R.id.queuelocked);
@@ -83,10 +83,10 @@ public class QueueListAdapter extends RecyclerView.Adapter<QueueListAdapter.View
             Abuilder.setView(popup);
 
             TextView name = popup.findViewById(R.id.queueName);
-            TextView nummemebers = popup.findViewById(R.id.numMembers);
+            TextView numMembers = popup.findViewById(R.id.numMembers);
 
             name.setText(party.getmName());
-            nummemebers.setText(party.getmMembers()+"");
+            numMembers.setText(party.getmMembers()+"");
 
 
 
