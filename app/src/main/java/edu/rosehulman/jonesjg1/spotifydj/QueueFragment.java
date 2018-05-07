@@ -17,12 +17,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import java.util.Random;
+
 
 public class QueueFragment extends Fragment {
     private Player mPlayer;
     private MainActivity mActivity;
     private Button buttonPausePlay;
     private OnFragmentInteractionListener mListener;
+    private Random mRandom;
 
     public QueueFragment() {
         // Required empty public constructor
@@ -48,11 +51,19 @@ public class QueueFragment extends Fragment {
         final QueueAdapter adapter = new QueueAdapter(getContext(), recyclerView, mPlayer,((MainActivity) getActivity()).getParty());
         recyclerView.setAdapter(adapter);
 
+        mRandom = new Random();
         Button randbutton = view.findViewById(R.id.random_button);
         randbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                adapter.addSong(new Song("Hey Jude","spotify:track:0aym2LBJBk9DAYuHHutrIl"));
+                int randInt = mRandom.nextInt(4);
+                if (randInt == 0) {
+                    adapter.addSong(new Song("Hey Jude","spotify:track:0aym2LBJBk9DAYuHHutrIl"));
+                } else if (randInt == 1) {
+                    adapter.addSong(new Song("Stairway to Heaven","spotify:track:5CQ30WqJwcep0pYcV4AMNc"));
+                } else {
+                    adapter.addSong(new Song("Hotel California", "spotify:track:40riOy7x9W7GXjyGp4pjAv"));
+                }
             }
         });
 
@@ -63,10 +74,6 @@ public class QueueFragment extends Fragment {
                 mListener.changeFragment(R.id.search_fragment);
             }
         });
-
-        adapter.addSong(new Song("Hey Jude", "spotify:track:0aym2LBJBk9DAYuHHutrIl"));
-        adapter.addSong(new Song("Stairway to Heaven", "spotify:track:5CQ30WqJwcep0pYcV4AMNc"));
-        adapter.addSong(new Song("Hotel California", "spotify:track:40riOy7x9W7GXjyGp4pjAv"));
 
         buttonPausePlay = view.findViewById(R.id.pause_button);
         buttonPausePlay.setOnClickListener(new View.OnClickListener() {

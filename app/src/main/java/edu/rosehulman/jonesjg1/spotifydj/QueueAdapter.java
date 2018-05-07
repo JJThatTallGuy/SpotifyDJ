@@ -38,13 +38,13 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
         mPlayer = player;
         mParty = party;
         sRef = FirebaseDatabase.getInstance().getReference().child("Parties").child(mParty.getKey()).child("Songs");
-
-
+        sRef.addChildEventListener(new PartyChildEventListener());
     }
 
     public void addSong(Song song) {
-        mSongs.add(song);
+        sRef.push().setValue(song);
         notifyDataSetChanged();
+        mRecyclerView.scrollToPosition(0);
     }
 
     @Override
