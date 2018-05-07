@@ -41,6 +41,14 @@ public class QueueFragment extends Fragment {
         final QueueAdapter adapter = new QueueAdapter(getContext(), recyclerView, mPlayer);
         recyclerView.setAdapter(adapter);
 
+        Button searchbutton = view.findViewById(R.id.search_button);
+        searchbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.changeFragment(R.id.search_fragment);
+            }
+        });
+
         adapter.addSong(new Song("Hey Jude", "spotify:track:0aym2LBJBk9DAYuHHutrIl"));
         adapter.addSong(new Song("Stairway to Heaven", "spotify:track:5CQ30WqJwcep0pYcV4AMNc"));
         adapter.addSong(new Song("Hotel California", "spotify:track:40riOy7x9W7GXjyGp4pjAv"));

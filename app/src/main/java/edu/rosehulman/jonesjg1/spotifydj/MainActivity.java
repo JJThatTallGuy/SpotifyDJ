@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements
     private static final String REDIRECT_URI = "Code-Croc-Spotify-DJ://callback";
     private Player mPlayer;
     private static final int REQUEST_CODE = 1337;
+    private SpotifyService spoty;
 
 
     @Override
@@ -55,12 +56,15 @@ public class MainActivity extends AppCompatActivity implements
         super.onActivityResult(requestCode, resultCode, intent);
 
         if (requestCode == REQUEST_CODE) {
-            AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
+            final AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
                 Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
                 Spotify.getPlayer(playerConfig, this, new SpotifyPlayer.InitializationObserver() {
                     @Override
                     public void onInitialized(SpotifyPlayer spotifyPlayer) {
+                        SpotifyApi api = new SpotifyApi();
+//                        api.setAccessToken();
+                        spoty=api.getService();
                         mPlayer = spotifyPlayer;
                         mPlayer.addConnectionStateCallback(MainActivity.this);
                         mPlayer.addNotificationCallback(MainActivity.this);
@@ -146,6 +150,10 @@ public class MainActivity extends AppCompatActivity implements
         }
         else if (id == R.id.queue_fragment) {
             switchTo = new QueueFragment();
+        }
+
+        if(id == R.id.search_fragment){
+            switchTo = new SearchFragment();
         }
 
         if (switchTo != null) {
