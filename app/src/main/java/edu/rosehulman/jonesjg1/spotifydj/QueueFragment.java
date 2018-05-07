@@ -31,7 +31,8 @@ public class QueueFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.recycler_view, container, false);
+        View view = inflater.inflate(R.layout.queue_fragment, container, false);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mPlayer = ((MainActivity) getActivity()).getPlayer();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -44,21 +45,19 @@ public class QueueFragment extends Fragment {
         adapter.addSong(new Song("Stairway to Heaven", "spotify:track:5CQ30WqJwcep0pYcV4AMNc"));
         adapter.addSong(new Song("Hotel California", "spotify:track:40riOy7x9W7GXjyGp4pjAv"));
 
-        return recyclerView;
+        buttonPausePlay = view.findViewById(R.id.pause_button);
+        buttonPausePlay.setOnClickListener(new View.OnClickListener() {
 
-//        buttonPausePlay = view.findViewById(R.id.pause_button);
-//        buttonPausePlay.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View view) {
-//                if (mPlayer.getPlaybackState().isPlaying) {
-//                    mPlayer.pause(null);
-//                } else {
-//                    mPlayer.resume(null);
-//                }
-//                updatePausePlay();
-//            }
-//        });
+            @Override
+            public void onClick(View view) {
+                if (mPlayer.getPlaybackState().isPlaying) {
+                    mPlayer.pause(null);
+                } else {
+                    mPlayer.resume(null);
+                }
+                updatePausePlay();
+            }
+        });
 //
 //        Button heyJude = view.findViewById(R.id.play_middle);
 //        Button stairwayHeaven = view.findViewById(R.id.play_top);
@@ -87,6 +86,8 @@ public class QueueFragment extends Fragment {
 //                updatePausePlay();
 //            }
 //        });
+
+        return view;
     }
 
     public void updatePausePlay() {

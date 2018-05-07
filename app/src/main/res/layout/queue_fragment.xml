@@ -8,32 +8,15 @@
     android:background="@color/colorBackground"
     android:id="@+id/queue_fragment">
 
+    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".QueueListFragment"
+        android:id="@+id/recycler_view">
 
-    <Button
-        android:id="@+id/play_middle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Play Hey Jude" />
+    </android.support.v7.widget.RecyclerView>
 
-    <Button
-        android:id="@+id/play_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/play_middle"
-        android:layout_marginBottom="40dp"
-        android:text="Play Stairway To Heaven" />
-
-    <Button
-        android:id="@+id/play_bottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/play_middle"
-        android:layout_marginTop="40dp"
-        android:text="Play Hotel California" />
 
     <Button
         android:id="@+id/pause_button"
