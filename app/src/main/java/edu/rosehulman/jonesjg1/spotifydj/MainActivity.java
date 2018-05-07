@@ -23,6 +23,10 @@ import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.TracksPager;
+
 public class MainActivity extends AppCompatActivity implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, OnFragmentInteractionListener {
     private static final String CLIENT_ID = "0cfd4201950a4a69a67f01bb5bf9d8a6";
@@ -39,7 +43,9 @@ public class MainActivity extends AppCompatActivity implements
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
         builder.setScopes(new String[]{"user-read-private", "streaming"});
         AuthenticationRequest request = builder.build();
-
+//        SpotifyService spoty = new SpotifyApi().getService();
+//        TracksPager tp = spoty.searchTracks("Buddy Holly");
+//        String songuri = tp.tracks.items.get(0).uri;
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
 
     }
