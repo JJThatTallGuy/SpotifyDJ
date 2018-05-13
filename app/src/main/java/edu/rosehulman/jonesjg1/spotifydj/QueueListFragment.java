@@ -27,6 +27,8 @@ public class QueueListFragment extends Fragment {
         view.setLayoutManager(new LinearLayoutManager(getContext()));
         view.setHasFixedSize(true);
 
+        ((MainActivity) getActivity()).getPlayer().pause(null);
+
         final QueueListAdapter adapter = new QueueListAdapter(getContext(), view);
         view.setAdapter(adapter);
 
