@@ -138,7 +138,6 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
             song.setKey(dataSnapshot.getKey());
             mSongs.add(song);
 
-            notifyDataSetChanged();
 
 
             if(mSongs.isEmpty()){
@@ -147,6 +146,9 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
             else {
                 mPlayer.queue(null, song.getmUri());
             }
+
+            notifyDataSetChanged();
+
         }
 
         @Override
