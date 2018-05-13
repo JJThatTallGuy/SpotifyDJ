@@ -3,6 +3,7 @@ package edu.rosehulman.jonesjg1.spotifydj;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,18 +42,13 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
         mSongs = new ArrayList<>();
         mPlayer = player;
         mParty = party;
-        if(mParty.getmOwner().id.equals(((MainActivity) mContext).getUserID())){
-            for(int i =0;i<mSongs.size();i++){
-                if(i==0){
-                    mPlayer.playUri(null,mSongs.get(i).getmUri(),0,0);
-                }
-                else{
-                    mPlayer.queue(null,mSongs.get(i).getmUri());
-                }
-            }
-        }
+
+
         sRef = FirebaseDatabase.getInstance().getReference().child("Parties").child(mParty.getKey()).child("Songs");
         sRef.addChildEventListener(new PartyChildEventListener());
+
+
+
 
 
         mPlayer.addNotificationCallback(new Player.NotificationCallback() {
@@ -60,13 +56,15 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
             public void onPlaybackEvent(PlayerEvent playerEvent) {
                 if(playerEvent.equals(PlayerEvent.kSpPlaybackNotifyTrackChanged)){
 
-                    if(curSong != null){
-                        sRef.child(curSong.getKey()).removeValue();
-                        curSong = mSongs.get(0);
-                    }
-                    else{
-                        curSong = mSongs.get(0);
-                    }
+
+//                    sRef.child(mSongs.get(0).getKey()).removeValue();
+//                    if(curSong != null){
+//                        sRef.child(curSong.getKey()).removeValue();
+//                        curSong = mSongs.get(1);
+//                    }
+//                    else{
+//                        curSong = mSongs.get(0);
+//                    }
                 }
             }
 
@@ -81,7 +79,6 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
 
     public void addSong(Song song) {
         sRef.push().setValue(song);
-
 
         notifyDataSetChanged();
         mRecyclerView.scrollToPosition(0);
@@ -136,16 +133,20 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
             Song song = dataSnapshot.getValue(Song.class);
 
             song.setKey(dataSnapshot.getKey());
+
+
+
+
+            if(mParty.getmOwner().id.equals(((MainActivity)mContext).getUserID())){
+                if(mSongs.size()==0){
+                    mPlayer.playUri(null,song.getmUri(),0,0);
+                }
+                else{
+                    mPlayer.queue(null,song.getmUri());
+                }
+            }
+
             mSongs.add(song);
-
-
-
-            if(mSongs.isEmpty()){
-                mPlayer.playUri(null,song.getmUri(),0,0);
-            }
-            else {
-                mPlayer.queue(null, song.getmUri());
-            }
 
             notifyDataSetChanged();
 
