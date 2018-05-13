@@ -6,6 +6,7 @@ public class Party {
     private String mPass;
     private boolean mIsPasswordProtected;
     private int mMembers;
+    private String mOwner;
 
     public QueueAdapter getAdapter() {
         return adapter;
@@ -29,7 +30,7 @@ public class Party {
         // empty constructor
     }
 
-    public Party(String name, String pass) {
+    public Party(String name, String pass, String owner) {
         mName = name;
         mPass = pass;
         if (mPass.equals("")) {
@@ -37,12 +38,21 @@ public class Party {
         } else {
             mIsPasswordProtected = true;
         }
+        mOwner = owner;
         mMembers = 1;
     }
 
     public void addMember() {
         mMembers++;
         // will add user in arraylist as well
+    }
+
+    public String getmOwner() {
+        return mOwner;
+    }
+
+    public void setmOwner(String mOwner) {
+        this.mOwner = mOwner;
     }
 
     public int getmMembers() {
