@@ -32,11 +32,7 @@ public class SearchFragment extends Fragment {
 
     public SearchFragment() {
         // Required empty public constructor
-
-
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,7 +56,7 @@ public class SearchFragment extends Fragment {
 
                 Log.d("TAG", songsearch.getQuery().toString());
 
-
+                mAdapter.clearAll();
                 new getSongTask().execute(songsearch.getQuery().toString());
 
 

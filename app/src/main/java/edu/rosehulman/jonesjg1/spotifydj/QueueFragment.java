@@ -25,7 +25,6 @@ public class QueueFragment extends Fragment {
     private MainActivity mActivity;
     private Button buttonPausePlay;
     private OnFragmentInteractionListener mListener;
-    private Random mRandom;
 
     public QueueFragment() {
         // Required empty public constructor
@@ -52,25 +51,6 @@ public class QueueFragment extends Fragment {
         ((MainActivity)getActivity()).getParty().setAdapter(adapter);
         recyclerView.setAdapter(adapter);
 
-        mRandom = new Random();
-        Button randbutton = view.findViewById(R.id.random_button);
-        randbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int randInt = mRandom.nextInt(4);
-                if (randInt == 0) {
-                    adapter.addSong(new Song("Hey Jude","spotify:track:0aym2LBJBk9DAYuHHutrIl",
-                            ((MainActivity) getActivity()).getUserID(), "The Beatles"));
-                } else if (randInt == 1) {
-                    adapter.addSong(new Song("Stairway to Heaven","spotify:track:5CQ30WqJwcep0pYcV4AMNc",
-                            ((MainActivity) getActivity()).getUserID(), "Led Zeppelin"));
-                } else {
-                    adapter.addSong(new Song("Hotel California", "spotify:track:40riOy7x9W7GXjyGp4pjAv",
-                            ((MainActivity) getActivity()).getUserID(), "The Eagles"));
-                }
-            }
-        });
-
         Button searchbutton = view.findViewById(R.id.search_button);
         searchbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,34 +72,6 @@ public class QueueFragment extends Fragment {
                 updatePausePlay();
             }
         });
-//
-//        Button heyJude = view.findViewById(R.id.play_middle);
-//        Button stairwayHeaven = view.findViewById(R.id.play_top);
-//        Button hotelCalifornia = view.findViewById(R.id.play_bottom);
-//
-//        heyJude.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mPlayer.playUri(null, "spotify:track:0aym2LBJBk9DAYuHHutrIl", 0, 0);
-//                updatePausePlay();
-//            }
-//        });
-//
-//        stairwayHeaven.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mPlayer.playUri(null, "spotify:track:5CQ30WqJwcep0pYcV4AMNc", 0, 0);
-//                updatePausePlay();
-//            }
-//        });
-//
-//        hotelCalifornia.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mPlayer.playUri(null, "spotify:track:40riOy7x9W7GXjyGp4pjAv", 0, 0);
-//                updatePausePlay();
-//            }
-//        });
 
         return view;
     }

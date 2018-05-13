@@ -29,7 +29,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         mRecyclerView = recyclerView;
     }
 
-
+    public void clearAll() {
+        mTrackList = new ArrayList<>();
+        notifyDataSetChanged();
+    }
 
     @Override
     public SearchViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
@@ -73,6 +76,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             Track tempTrack = mTrackList.get(getAdapterPosition());
             Song newSong = new Song(tempTrack.name,tempTrack.uri,((MainActivity)mContext).getUserID(), tempTrack.artists.get(0).name);
             QAdapter.addSong(newSong);
+            ((MainActivity) mContext).changeFragment(R.id.queue_fragment);
         }
     }
 }
