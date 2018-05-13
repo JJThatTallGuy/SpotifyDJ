@@ -114,6 +114,10 @@ public class MainActivity extends AppCompatActivity implements
         return mUser.id;
     }
 
+    public UserPublic getUser() {
+        return mUser;
+    }
+
     @Override
     protected void onDestroy() {
         Spotify.destroyPlayer(this);

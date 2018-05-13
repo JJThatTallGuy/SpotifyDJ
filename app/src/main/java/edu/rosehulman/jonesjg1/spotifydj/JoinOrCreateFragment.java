@@ -71,7 +71,7 @@ public class JoinOrCreateFragment extends Fragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String titletext = title.getText().toString();
                         String pass = password.getText().toString();
-                        mParty = new Party(title.getText().toString(),password.getText().toString(), ((MainActivity) mContext).getUserID());
+                        mParty = new Party(title.getText().toString(),password.getText().toString(), ((MainActivity) mContext).getUser());
                         PartyRef.push().setValue(mParty);
                         ((MainActivity) getActivity()).setCurrentQueue(mParty);
 //                        mListener.changeFragment(R.id.queue_fragment);

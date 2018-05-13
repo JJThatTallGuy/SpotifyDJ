@@ -53,6 +53,7 @@ public class QueueListAdapter extends RecyclerView.Adapter<QueueListAdapter.Queu
         holder.party = mParties.get(position);
         holder.mName.setText(mParties.get(position).getmName());
         holder.mMembers.setText(mParties.get(position).getmMembers() + "");
+        holder.mOwner.setText("Owner: " + mParties.get(position).getmOwner().display_name);
         if (!mParties.get(position).ismIsPasswordProtected()) {
             holder.mLocked.setVisibility(View.INVISIBLE);
         }
@@ -68,12 +69,14 @@ public class QueueListAdapter extends RecyclerView.Adapter<QueueListAdapter.Queu
         private TextView mName;
         private ImageView mLocked;
         private TextView mMembers;
+        private TextView mOwner;
 
         public QueueListViewHolder(View itemView) {
             super(itemView);
             mName = itemView.findViewById(R.id.queueName);
             mLocked = itemView.findViewById(R.id.queuelocked);
             mMembers = itemView.findViewById(R.id.numMembers);
+            mOwner = itemView.findViewById(R.id.ownerName);
             itemView.setOnClickListener(this);
         }
 

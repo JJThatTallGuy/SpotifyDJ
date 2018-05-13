@@ -1,12 +1,14 @@
 package edu.rosehulman.jonesjg1.spotifydj;
 
+import kaaes.spotify.webapi.android.models.UserPublic;
+
 public class Party {
 
     private String mName;
     private String mPass;
     private boolean mIsPasswordProtected;
     private int mMembers;
-    private String mOwner;
+    private UserPublic mOwner;
 
     public QueueAdapter getAdapter() {
         return adapter;
@@ -30,7 +32,7 @@ public class Party {
         // empty constructor
     }
 
-    public Party(String name, String pass, String owner) {
+    public Party(String name, String pass, UserPublic owner) {
         mName = name;
         mPass = pass;
         if (mPass.equals("")) {
@@ -47,11 +49,11 @@ public class Party {
         // will add user in arraylist as well
     }
 
-    public String getmOwner() {
+    public UserPublic getmOwner() {
         return mOwner;
     }
 
-    public void setmOwner(String mOwner) {
+    public void setmOwner(UserPublic mOwner) {
         this.mOwner = mOwner;
     }
 
