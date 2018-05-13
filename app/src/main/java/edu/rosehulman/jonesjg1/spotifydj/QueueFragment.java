@@ -159,4 +159,7 @@ public class QueueFragment extends Fragment {
         super.onDestroy();
         mPlayer.pause(null);
     }
+
+    // BottomNavigation for buttons at bottom of queue
+
 }

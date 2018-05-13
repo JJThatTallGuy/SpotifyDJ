@@ -123,4 +123,5 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
 
         }
     }
+
 }

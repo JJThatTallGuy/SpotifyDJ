@@ -2,15 +2,12 @@ package edu.rosehulman.jonesjg1.spotifydj;
 
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.FrameLayout;
 
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
@@ -25,7 +22,11 @@ import com.spotify.sdk.android.player.SpotifyPlayer;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
-import kaaes.spotify.webapi.android.models.TracksPager;
+import kaaes.spotify.webapi.android.models.UserPrivate;
+import kaaes.spotify.webapi.android.models.UserPublic;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class MainActivity extends AppCompatActivity implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback, OnFragmentInteractionListener {
@@ -33,8 +34,10 @@ public class MainActivity extends AppCompatActivity implements
     private static final String REDIRECT_URI = "Code-Croc-Spotify-DJ://callback";
     private Player mPlayer;
     private static final int REQUEST_CODE = 1337;
-    private SpotifyService spoty;
+    private SpotifyService mSpoty;
+    private SpotifyApi mApi;
     private Party party;
+    private UserPublic mUser;
 
 
     @Override
@@ -45,11 +48,35 @@ public class MainActivity extends AppCompatActivity implements
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
         builder.setScopes(new String[]{"user-read-private", "streaming"});
         AuthenticationRequest request = builder.build();
-//        SpotifyService spoty = new SpotifyApi().getService();
-//        TracksPager tp = spoty.searchTracks("Buddy Holly");
+        mApi = new SpotifyApi();
+        mSpoty = mApi.getService();
+//        TracksPager tp = mSpoty.searchTracks("Buddy Holly");
 //        String songuri = tp.tracks.items.get(0).uri;
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
 
+    }
+
+    public void fetchUserInfo() {
+        new AsyncTask<Void, Void, UserPrivate>() {
+
+            @Override
+            protected UserPrivate doInBackground(Void... voids) {
+                UserPrivate userPrivate = null;
+                try {
+                    userPrivate = mSpoty.getMe();
+                } catch (Exception e) {
+                    Log.e("Error", "Error fetching UserInfo: " + e);
+                }
+                return userPrivate;
+            }
+
+            @Override
+            protected void onPostExecute(UserPrivate userPrivate) {
+                // Do what you need to with user data
+                mUser = userPrivate;
+                Log.d("USERID", mUser.id);
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override
@@ -63,9 +90,8 @@ public class MainActivity extends AppCompatActivity implements
                 Spotify.getPlayer(playerConfig, this, new SpotifyPlayer.InitializationObserver() {
                     @Override
                     public void onInitialized(SpotifyPlayer spotifyPlayer) {
-                        SpotifyApi api = new SpotifyApi();
-//                        api.setAccessToken();
-                        spoty=api.getService();
+                        mApi.setAccessToken(response.getAccessToken());
+                        fetchUserInfo();
                         mPlayer = spotifyPlayer;
                         mPlayer.addConnectionStateCallback(MainActivity.this);
                         mPlayer.addNotificationCallback(MainActivity.this);
@@ -78,6 +104,10 @@ public class MainActivity extends AppCompatActivity implements
                 });
             }
         }
+    }
+
+    public String getUserID() {
+        return mUser.id;
     }
 
     @Override
