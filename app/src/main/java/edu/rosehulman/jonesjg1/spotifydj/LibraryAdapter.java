@@ -7,23 +7,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.spotify.sdk.android.player.Player;
-
 import java.util.ArrayList;
 
+import kaaes.spotify.webapi.android.models.SavedTrack;
 import kaaes.spotify.webapi.android.models.Track;
 
 /**
- * Created by jonesjg1 on 5/13/2018.
+ * Created by jjone on 5/13/2018.
  */
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
-    ArrayList<Track> mTrackList = new ArrayList<Track>();
+public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.LibraryViewHolder> {
+    ArrayList<SavedTrack> mTrackList = new ArrayList<SavedTrack>();
     private Context mContext;
     private QueueAdapter QAdapter;
     private RecyclerView mRecyclerView;
 
-    public SearchAdapter(Context context, RecyclerView recyclerView, QueueAdapter QAdapter){
+    public LibraryAdapter(Context context, RecyclerView recyclerView, QueueAdapter QAdapter){
         this.mContext = context;
         this.QAdapter = QAdapter;
         mRecyclerView = recyclerView;
@@ -35,23 +34,23 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     }
 
     @Override
-    public SearchViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-    View view = LayoutInflater.from(mContext).inflate(R.layout.song_view, parent, false);
-        return new SearchViewHolder(view);
+    public LibraryViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+        View view = LayoutInflater.from(mContext).inflate(R.layout.song_view, parent, false);
+        return new LibraryViewHolder(view);
     }
 
 
 
-    public void add(Track t){
+    public void add(SavedTrack t){
         mTrackList.add(t);
         notifyDataSetChanged();
         mRecyclerView.scrollToPosition(0);
     }
 
     @Override
-    public void onBindViewHolder(SearchViewHolder holder, int position) {
-        holder.nameView.setText(mTrackList.get(position).name);
-        holder.artistView.setText(mTrackList.get(position).artists.get(0).name);
+    public void onBindViewHolder(LibraryViewHolder holder, int position) {
+        holder.nameView.setText(mTrackList.get(position).track.name);
+        holder.artistView.setText(mTrackList.get(position).track.artists.get(0).name);
     }
 
     @Override
@@ -59,12 +58,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         return mTrackList.size();
     }
 
-    public class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class LibraryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView nameView;
         private TextView artistView;
 
-        public SearchViewHolder(View itemView) {
+        public LibraryViewHolder(View itemView) {
 
             super(itemView);
 
@@ -75,8 +74,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
         @Override
         public void onClick(View view) {
-            Track tempTrack = mTrackList.get(getAdapterPosition());
-            Song newSong = new Song(tempTrack.name,tempTrack.uri,((MainActivity)mContext).getUserID(), tempTrack.artists.get(0).name);
+            SavedTrack tempTrack = mTrackList.get(getAdapterPosition());
+            Song newSong = new Song(tempTrack.track.name,tempTrack.track.uri,((MainActivity)mContext).getUserID(), tempTrack.track.artists.get(0).name);
             QAdapter.addSong(newSong);
             ((MainActivity) mContext).changeFragment(R.id.queue_fragment);
         }

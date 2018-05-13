@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements
             protected void onPostExecute(UserPrivate userPrivate) {
                 // Do what you need to with user data
                 mUser = userPrivate;
+
                 Log.d("USERID", mUser.id);
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -189,14 +190,18 @@ public class MainActivity extends AppCompatActivity implements
 
         } else if (id == R.id.queue_in_list) {
             switchTo = new QueueListFragment();
-        }
 
+        }
         else if (id == R.id.queue_fragment) {
             switchTo = new QueueFragment();
         }
 
         if(id == R.id.search_fragment){
             switchTo = new SearchFragment();
+        }
+
+        if(id==R.id.library_fragment){
+            switchTo = new LibraryFragment();
         }
 
         if (switchTo != null) {

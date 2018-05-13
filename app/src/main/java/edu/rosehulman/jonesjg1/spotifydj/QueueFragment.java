@@ -24,6 +24,7 @@ public class QueueFragment extends Fragment {
     private Player mPlayer;
     private MainActivity mActivity;
     private Button buttonPausePlay;
+
     private OnFragmentInteractionListener mListener;
 
     public QueueFragment() {
@@ -70,6 +71,15 @@ public class QueueFragment extends Fragment {
                     mPlayer.resume(null);
                 }
                 updatePausePlay();
+            }
+        });
+
+       Button buttonLibrary = view.findViewById(R.id.library_button);
+        buttonLibrary.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                mListener.changeFragment(R.id.library_fragment);
             }
         });
 
