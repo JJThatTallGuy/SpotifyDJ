@@ -81,12 +81,7 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
 
     public void addSong(Song song) {
         sRef.push().setValue(song);
-        if(mSongs.isEmpty()){
-            mPlayer.playUri(null,song.getmUri(),0,0);
-        }
-        else {
-            mPlayer.queue(null, song.getmUri());
-        }
+
 
         notifyDataSetChanged();
         mRecyclerView.scrollToPosition(0);
@@ -142,7 +137,16 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
 
             song.setKey(dataSnapshot.getKey());
             mSongs.add(song);
+
             notifyDataSetChanged();
+
+
+            if(mSongs.isEmpty()){
+                mPlayer.playUri(null,song.getmUri(),0,0);
+            }
+            else {
+                mPlayer.queue(null, song.getmUri());
+            }
         }
 
         @Override
