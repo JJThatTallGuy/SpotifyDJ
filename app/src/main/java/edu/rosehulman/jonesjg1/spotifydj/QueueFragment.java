@@ -107,13 +107,13 @@ public class QueueFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        mPlayer.pause(null);
+//        mPlayer.pause(null);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mPlayer.pause(null);
+//        mPlayer.pause(null);
     }
 
     // BottomNavigation for buttons at bottom of queue

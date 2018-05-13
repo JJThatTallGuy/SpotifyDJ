@@ -186,7 +186,6 @@ public class MainActivity extends AppCompatActivity implements
         } else if (id == R.id.queue_in_list) {
             switchTo = new QueueListFragment();
             mPlayer.pause(null);
-
         }
         else if (id == R.id.queue_fragment) {
             switchTo = new QueueFragment();
@@ -194,9 +193,11 @@ public class MainActivity extends AppCompatActivity implements
 
         if(id == R.id.search_fragment){
             switchTo = new SearchFragment();
+            ft.replace(R.id.fragment_main, switchTo);
+            ft.commit();
         }
 
-        if (switchTo != null) {
+        if (switchTo != null && id != R.id.search_fragment) {
             ft.replace(R.id.fragment_main, switchTo);
             ft.addToBackStack(null);
             ft.commit();

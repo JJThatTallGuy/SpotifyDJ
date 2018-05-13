@@ -6,6 +6,7 @@ import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
@@ -94,6 +95,9 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
     public void onBindViewHolder(QueueViewHolder holder, int position) {
         holder.nameView.setText(mSongs.get(position).getmName());
         holder.artistView.setText(mSongs.get(position).getmArtist());
+        if (position == 0) {
+            holder.playing.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -105,11 +109,13 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
 
         private TextView nameView;
         private TextView artistView;
+        private ImageView playing;
 
         public QueueViewHolder(View itemView) {
             super(itemView);
             nameView = itemView.findViewById(R.id.songName);
             artistView = itemView.findViewById(R.id.songArtist);
+            playing = itemView.findViewById(R.id.playing);
             itemView.setOnClickListener(this);
         }
 
