@@ -185,6 +185,7 @@ public class MainActivity extends AppCompatActivity implements
 
         } else if (id == R.id.queue_in_list) {
             switchTo = new QueueListFragment();
+            mPlayer.pause(null);
 
         }
         else if (id == R.id.queue_fragment) {
