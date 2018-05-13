@@ -79,6 +79,10 @@ public class MainActivity extends AppCompatActivity implements
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
+    public SpotifyService getWebAPI(){
+        return mSpoty;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);

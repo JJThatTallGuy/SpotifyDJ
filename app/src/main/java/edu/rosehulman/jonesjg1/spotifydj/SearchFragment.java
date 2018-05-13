@@ -2,6 +2,7 @@ package edu.rosehulman.jonesjg1.spotifydj;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -10,6 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.SearchView;
+
+import com.spotify.sdk.android.player.Player;
+import com.spotify.sdk.android.player.SpotifyPlayer;
+
+import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.TracksPager;
 
 
 public class SearchFragment extends Fragment {
@@ -31,18 +38,47 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.search_fragment, container, false);
+        View view = inflater.inflate(R.layout.search_fragment, container, false);
         this.songsearch = view.findViewById(R.id.searchview);
-        this.songsearch.setOnCloseListener(new SearchView.OnCloseListener() {
+        this.songsearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onClose() {
-                Log.d("TAG","HAHAHAHAHA");
+            public boolean onQueryTextSubmit(String s) {
+
+                Log.d("TAG", songsearch.getQuery().toString());
+
+
+                new getSongTask().execute(songsearch.getQuery().toString());
+
+
                 return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
             }
         });
         return view;
     }
 
+
+    class getSongTask extends AsyncTask<String, Void, String>{
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String search = strings[0];
+            SpotifyService SS = ((MainActivity)getActivity()).getWebAPI();
+
+            TracksPager tp = SS.searchTracks(search);
+            String songuri = tp.tracks.items.get(0).uri;
+            return songuri;
+        }
+        protected void onPostExecute(String songuri){
+            super.onPostExecute(songuri);
+            Player mPlayer = ((MainActivity)getActivity()).getPlayer();
+            mPlayer.playUri(null,songuri,0,0);
+        }
+    }
 
     @Override
     public void onAttach(Context context) {
