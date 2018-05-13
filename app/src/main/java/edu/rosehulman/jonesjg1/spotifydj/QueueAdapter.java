@@ -41,7 +41,16 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
         mSongs = new ArrayList<>();
         mPlayer = player;
         mParty = party;
-
+        if(mParty.getmOwner().id.equals(((MainActivity) mContext).getUserID())){
+            for(int i =0;i<mSongs.size();i++){
+                if(i==0){
+                    mPlayer.playUri(null,mSongs.get(i).getmUri(),0,0);
+                }
+                else{
+                    mPlayer.queue(null,mSongs.get(i).getmUri());
+                }
+            }
+        }
         sRef = FirebaseDatabase.getInstance().getReference().child("Parties").child(mParty.getKey()).child("Songs");
         sRef.addChildEventListener(new PartyChildEventListener());
 
