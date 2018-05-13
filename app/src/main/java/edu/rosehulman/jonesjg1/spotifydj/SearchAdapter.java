@@ -21,9 +21,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     ArrayList<Track> mTrackList = new ArrayList<Track>();
     private Context mContext;
     private QueueAdapter QAdapter;
+    private RecyclerView mRecyclerView;
+
     public SearchAdapter(Context context, RecyclerView recyclerView, QueueAdapter QAdapter){
         this.mContext = context;
         this.QAdapter = QAdapter;
+        mRecyclerView = recyclerView;
     }
 
 
@@ -35,13 +38,15 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     }
 
     public void add(Track t){
-        mTrackList.add(t);
+        mTrackList.add(0, t);
         notifyDataSetChanged();
+        mRecyclerView.scrollToPosition(0);
     }
 
     @Override
     public void onBindViewHolder(SearchViewHolder holder, int position) {
         holder.nameView.setText(mTrackList.get(position).name);
+        holder.artistView.setText(mTrackList.get(position).artists.get(0).name);
     }
 
     @Override
@@ -52,19 +57,21 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     public class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView nameView;
+        private TextView artistView;
 
         public SearchViewHolder(View itemView) {
 
             super(itemView);
 
             nameView = itemView.findViewById(R.id.songName);
-            nameView.setOnClickListener(this);
+            artistView = itemView.findViewById(R.id.songArtist);
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
             Track tempTrack = mTrackList.get(getAdapterPosition());
-            Song newSong = new Song(tempTrack.name,tempTrack.uri,((MainActivity)mContext).getUserID());
+            Song newSong = new Song(tempTrack.name,tempTrack.uri,((MainActivity)mContext).getUserID(), tempTrack.artists.get(0).name);
             QAdapter.addSong(newSong);
         }
     }

@@ -56,6 +56,7 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
     @Override
     public void onBindViewHolder(QueueViewHolder holder, int position) {
         holder.nameView.setText(mSongs.get(position).getmName());
+        holder.artistView.setText(mSongs.get(position).getmArtist());
     }
 
     @Override
@@ -66,11 +67,13 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
     public class QueueViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView nameView;
+        private TextView artistView;
 
         public QueueViewHolder(View itemView) {
             super(itemView);
             nameView = itemView.findViewById(R.id.songName);
-            nameView.setOnClickListener(this);
+            artistView = itemView.findViewById(R.id.songArtist);
+            itemView.setOnClickListener(this);
         }
 
 

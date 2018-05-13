@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="35dp"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
     android:background="@color/colorForeground"
-    android:id="@+id/song_in_queue">
+    android:id="@+id/song_in_queue"
+    android:layout_marginBottom="5dp">
 
     <TextView
         android:id="@+id/songName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SongName"
-        android:layout_centerVertical="true"
         android:textSize="25sp"
-        android:layout_marginLeft="5dp"/>
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:id="@+id/songArtist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ArtistName"
+        android:layout_below="@+id/songName"
+        android:layout_marginLeft="5dp"
+        android:textSize="15sp"
+        android:layout_marginBottom="5dp"/>
+
 
 </RelativeLayout>

@@ -8,15 +8,25 @@ public class Song {
     private String mUri;
     private String key;
     private String mUserID;
+    private String mArtist;
 
-    public Song(String name, String uri, String userID) {
+    public Song(String name, String uri, String userID, String artist) {
         mName = name;
         mUri = uri;
         mUserID = userID;
+        mArtist = artist;
     }
 
     public Song() {
         //empty constructor
+    }
+
+    public String getmArtist() {
+        return mArtist;
+    }
+
+    public void setmArtist(String mArtist) {
+        this.mArtist = mArtist;
     }
 
     public String getmName() {
