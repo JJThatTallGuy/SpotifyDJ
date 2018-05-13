@@ -2,6 +2,7 @@ package edu.rosehulman.jonesjg1.spotifydj;
 
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -47,16 +48,20 @@ public class QueueFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
-
-        final QueueAdapter adapter = new QueueAdapter(getContext(), recyclerView, mPlayer,((MainActivity) getActivity()).getParty());
-        ((MainActivity)getActivity()).getParty().setAdapter(adapter);
+        if (((MainActivity) getActivity()).getParty().getAdapter() != null) {
+            recyclerView.setAdapter(((MainActivity) getActivity()).getParty().getAdapter());
+        } else{
+            final QueueAdapter adapter = new QueueAdapter(getContext(), recyclerView, mPlayer, ((MainActivity) getActivity()).getParty());
+        ((MainActivity) getActivity()).getParty().setAdapter(adapter);
         recyclerView.setAdapter(adapter);
+    }
 
         Button searchbutton = view.findViewById(R.id.search_button);
         searchbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mListener.changeFragment(R.id.search_fragment);
+
             }
         });
 

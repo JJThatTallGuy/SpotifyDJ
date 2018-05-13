@@ -79,6 +79,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             Song newSong = new Song(tempTrack.name,tempTrack.uri,((MainActivity)mContext).getUserID(), tempTrack.artists.get(0).name);
             QAdapter.addSong(newSong);
             ((MainActivity) mContext).changeFragment(R.id.queue_fragment);
+
         }
     }
 }

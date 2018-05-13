@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -36,6 +37,7 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
     private Party mParty;
     private Song curSong;
 
+
     public QueueAdapter(Context context, RecyclerView recyclerView, Player player, Party party) {
         mContext = context;
         mRecyclerView = recyclerView;
@@ -58,13 +60,13 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
 
 
 //                    sRef.child(mSongs.get(0).getKey()).removeValue();
-//                    if(curSong != null){
-//                        sRef.child(curSong.getKey()).removeValue();
-//                        curSong = mSongs.get(1);
-//                    }
-//                    else{
-//                        curSong = mSongs.get(0);
-//                    }
+                    if(curSong != null){
+                        sRef.child(curSong.getKey()).removeValue();
+                        curSong = mSongs.get(1);
+                    }
+                    else{
+                        curSong = mSongs.get(0);
+                    }
                 }
             }
 
@@ -78,10 +80,14 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
 
 
     public void addSong(Song song) {
-        sRef.push().setValue(song);
 
-        notifyDataSetChanged();
-        mRecyclerView.scrollToPosition(0);
+        if (mSongs.contains(song)) {
+            Toast.makeText(mContext, "Song already in queue", Toast.LENGTH_LONG).show();
+        } else {
+            sRef.push().setValue(song);
+
+            notifyDataSetChanged();
+        }
     }
 
 
@@ -112,6 +118,7 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
         private TextView artistView;
         private ImageView playing;
 
+
         public QueueViewHolder(View itemView) {
             super(itemView);
             nameView = itemView.findViewById(R.id.songName);
@@ -123,7 +130,7 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
 
         @Override
         public void onClick(View view) {
-            mPlayer.playUri(null, mSongs.get(getAdapterPosition()).getmUri(), 0, 0);
+//            mPlayer.playUri(null, mSongs.get(getAdapterPosition()).getmUri(), 0, 0);
         }
     }
 
@@ -135,21 +142,18 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
             song.setKey(dataSnapshot.getKey());
 
 
-
-
-            if(mParty.getmOwner().id.equals(((MainActivity)mContext).getUserID())){
-                if(mSongs.size()==0){
-                    mPlayer.playUri(null,song.getmUri(),0,0);
+            if (mParty.getmOwner().id.equals(((MainActivity) mContext).getUserID())) {
+                if (mSongs.size()==0) {
+                    mPlayer.playUri(null, song.getmUri(), 0, 0);
                 }
                 else{
-                    mPlayer.queue(null,song.getmUri());
+                    mPlayer.queue(null, song.getmUri());
+
                 }
+
             }
-
             mSongs.add(song);
-
             notifyDataSetChanged();
-
         }
 
         @Override

@@ -175,6 +175,14 @@ public class MainActivity extends AppCompatActivity implements
     public Player getPlayer() {
         return mPlayer;
     }
+
+    public void play(String uri){
+        this.mPlayer.playUri(null,uri,0,0);
+    }
+
+    public void queue(String uri){
+        this.mPlayer.queue(null,uri);
+    }
     
     public void setCurrentQueue(Party party){
         this.party = party;
@@ -213,5 +221,8 @@ public class MainActivity extends AppCompatActivity implements
 
     public Party getParty() {
         return party;
+    }
+
+    public void changeFragmentSpecial(QueueAdapter qAdapter) {
     }
 }
