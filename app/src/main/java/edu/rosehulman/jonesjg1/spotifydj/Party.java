@@ -7,6 +7,13 @@ public class Party {
     private boolean mIsPasswordProtected;
     private int mMembers;
 
+    public QueueAdapter getAdapter() {
+        return adapter;
+    }
+
+    private QueueAdapter adapter;
+
+
     public String getKey() {
         return key;
     }
@@ -75,5 +82,9 @@ public class Party {
         setmPass(updatedParty.getmPass());
         setmIsPasswordProtected(updatedParty.ismIsPasswordProtected());
         setmName(updatedParty.getmName());
+    }
+
+    public void setAdapter(QueueAdapter adapter) {
+        this.adapter = adapter;
     }
 }

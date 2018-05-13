@@ -49,6 +49,7 @@ public class QueueFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         final QueueAdapter adapter = new QueueAdapter(getContext(), recyclerView, mPlayer,((MainActivity) getActivity()).getParty());
+        ((MainActivity)getActivity()).getParty().setAdapter(adapter);
         recyclerView.setAdapter(adapter);
 
         mRandom = new Random();

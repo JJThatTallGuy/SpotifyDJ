@@ -11,6 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/colorWhite"
+        android:queryHint="Song"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp" />
+
+    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_below="@id/searchview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".QueueListFragment"
+        android:id="@+id/search_recycler_view">
+
+
+    </android.support.v7.widget.RecyclerView>
 </RelativeLayout>

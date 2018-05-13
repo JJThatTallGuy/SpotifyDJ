@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
 import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.TracksPager;
 
 
@@ -26,6 +28,7 @@ public class SearchFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private SearchView songsearch;
+    private SearchAdapter mAdapter;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -40,8 +43,16 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.search_fragment, container, false);
-        RecyclerView recyclerView = container.findViewById(R.id.recycler_view);
-        SearchAdapter mAdapter = new SearchAdapter(getContext(), recyclerView, ((MainActivity)getActivity()).getParty());
+        RecyclerView recyclerView = view.findViewById(R.id.search_recycler_view);
+       this.mAdapter = new SearchAdapter(getContext(), recyclerView, ((MainActivity)getActivity()).getParty().getAdapter());
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setHasFixedSize(true);
+
+       recyclerView.setAdapter(this.mAdapter);
+
+
+
         this.songsearch = view.findViewById(R.id.searchview);
         this.songsearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -65,21 +76,23 @@ public class SearchFragment extends Fragment {
     }
 
 
-    class getSongTask extends AsyncTask<String, Void, String>{
+    class getSongTask extends AsyncTask<String, Void, TracksPager>{
 
         @Override
-        protected String doInBackground(String... strings) {
+        protected TracksPager doInBackground(String... strings) {
             String search = strings[0];
             SpotifyService SS = ((MainActivity)getActivity()).getWebAPI();
 
             TracksPager tp = SS.searchTracks(search);
-            String songuri = tp.tracks.items.get(0).uri;
-            return songuri;
+            return tp;
         }
-        protected void onPostExecute(String songuri){
-            super.onPostExecute(songuri);
-            Player mPlayer = ((MainActivity)getActivity()).getPlayer();
-            mPlayer.playUri(null,songuri,0,0);
+        protected void onPostExecute(TracksPager tp){
+            super.onPostExecute(tp);
+            for(int i =0;i<tp.tracks.items.size();i++){
+                mAdapter.add(tp.tracks.items.get(i));
+
+
+            }
         }
     }
 
