@@ -13,7 +13,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.spotify.sdk.android.player.Error;
 import com.spotify.sdk.android.player.Player;
+import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
     private Player mPlayer;
     private DatabaseReference sRef;
     private Party mParty;
+    private Song curSong;
 
     public QueueAdapter(Context context, RecyclerView recyclerView, Player player, Party party) {
         mContext = context;
@@ -37,15 +40,49 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
         mSongs = new ArrayList<>();
         mPlayer = player;
         mParty = party;
+
         sRef = FirebaseDatabase.getInstance().getReference().child("Parties").child(mParty.getKey()).child("Songs");
         sRef.addChildEventListener(new PartyChildEventListener());
+
+
+        mPlayer.addNotificationCallback(new Player.NotificationCallback() {
+            @Override
+            public void onPlaybackEvent(PlayerEvent playerEvent) {
+                if(playerEvent.equals(PlayerEvent.kSpPlaybackNotifyTrackChanged)){
+
+                    if(curSong != null){
+                        sRef.child(curSong.getKey()).removeValue();
+                        curSong = mSongs.get(0);
+                    }
+                    else{
+                        curSong = mSongs.get(0);
+                    }
+                }
+            }
+
+            @Override
+            public void onPlaybackError(Error error) {
+
+            }
+        });
+
     }
+
 
     public void addSong(Song song) {
         sRef.push().setValue(song);
+        if(mSongs.isEmpty()){
+            mPlayer.playUri(null,song.getmUri(),0,0);
+        }
+        else {
+            mPlayer.queue(null, song.getmUri());
+        }
+
         notifyDataSetChanged();
         mRecyclerView.scrollToPosition(0);
     }
+
+
 
     @Override
     public QueueViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

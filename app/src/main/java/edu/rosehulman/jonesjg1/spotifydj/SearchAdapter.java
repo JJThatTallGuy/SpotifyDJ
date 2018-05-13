@@ -41,7 +41,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     }
 
     public void add(Track t){
-        mTrackList.add(0, t);
+        mTrackList.add(t);
         notifyDataSetChanged();
         mRecyclerView.scrollToPosition(0);
     }
