@@ -58,11 +58,14 @@ public class QueueFragment extends Fragment {
             public void onClick(View v) {
                 int randInt = mRandom.nextInt(4);
                 if (randInt == 0) {
-                    adapter.addSong(new Song("Hey Jude","spotify:track:0aym2LBJBk9DAYuHHutrIl"));
+                    adapter.addSong(new Song("Hey Jude","spotify:track:0aym2LBJBk9DAYuHHutrIl",
+                            ((MainActivity) getActivity()).getUserID()));
                 } else if (randInt == 1) {
-                    adapter.addSong(new Song("Stairway to Heaven","spotify:track:5CQ30WqJwcep0pYcV4AMNc"));
+                    adapter.addSong(new Song("Stairway to Heaven","spotify:track:5CQ30WqJwcep0pYcV4AMNc",
+                            ((MainActivity) getActivity()).getUserID()));
                 } else {
-                    adapter.addSong(new Song("Hotel California", "spotify:track:40riOy7x9W7GXjyGp4pjAv"));
+                    adapter.addSong(new Song("Hotel California", "spotify:track:40riOy7x9W7GXjyGp4pjAv",
+                            ((MainActivity) getActivity()).getUserID()));
                 }
             }
         });

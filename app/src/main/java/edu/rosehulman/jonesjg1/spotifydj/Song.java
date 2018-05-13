@@ -7,11 +7,12 @@ public class Song {
     private String mName;
     private String mUri;
     private String key;
+    private String mUserID;
 
-    public Song(String name, String uri) {
+    public Song(String name, String uri, String userID) {
         mName = name;
         mUri = uri;
-
+        mUserID = userID;
     }
 
     public Song() {
@@ -45,5 +46,13 @@ public class Song {
 
     public String getKey() {
         return this.key;
+    }
+
+    public String getmUserID() {
+        return mUserID;
+    }
+
+    public void setmUserID(String mUserID) {
+        this.mUserID = mUserID;
     }
 }
