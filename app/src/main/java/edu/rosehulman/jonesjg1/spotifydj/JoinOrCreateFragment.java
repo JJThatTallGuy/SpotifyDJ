@@ -42,6 +42,8 @@ public class JoinOrCreateFragment extends Fragment {
         this.PartyRef = FirebaseDatabase.getInstance().getReference().child("Parties");
         this.PartyRef.keepSynced(true);
 
+        mContext = getContext();
+
         Button joinButton = view.findViewById(R.id.buttonJoin);
         Button createButton = view.findViewById(R.id.buttonCreate);
 
