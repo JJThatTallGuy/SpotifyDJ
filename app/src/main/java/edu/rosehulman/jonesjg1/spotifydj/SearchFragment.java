@@ -65,7 +65,14 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                return false;
+                Log.d("TAG", songsearch.getQuery().toString());
+
+                mAdapter.clearAll();
+                new getSongTask().execute(songsearch.getQuery().toString());
+
+
+                return true;
+
             }
         });
         return view;

@@ -1,12 +1,18 @@
 package edu.rosehulman.jonesjg1.spotifydj;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,7 +68,12 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
 //                    sRef.child(mSongs.get(0).getKey()).removeValue();
                     if(curSong != null){
                         sRef.child(curSong.getKey()).removeValue();
-                        curSong = mSongs.get(1);
+                        if(mSongs.size()>=1) {
+                            curSong = mSongs.get(1);
+                        }
+                        else{
+                            curSong = null;
+                        }
                     }
                     else{
                         curSong = mSongs.get(0);
@@ -81,16 +92,22 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
 
     public void addSong(Song song) {
 
-        if (mSongs.contains(song)) {
-            Toast.makeText(mContext, "Song already in queue", Toast.LENGTH_LONG).show();
-        } else {
-            sRef.push().setValue(song);
+        for (Song s : mSongs) {
+            if (s.getmName().equals(song.getmName()) && s.getmArtist().equals(song.getmArtist())) {
 
-            notifyDataSetChanged();
+
+                Toast.makeText(mContext, "Song already in queue", Toast.LENGTH_LONG).show();
+            } else {
+                sRef.push().setValue(song);
+
+                notifyDataSetChanged();
+            }
         }
     }
 
-
+    public void removeSong(Song song){
+        sRef.child(song.getKey()).removeValue();
+    }
 
     @Override
     public QueueViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -112,7 +129,7 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
         return mSongs.size();
     }
 
-    public class QueueViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class QueueViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
 
         private TextView nameView;
         private TextView artistView;
@@ -125,12 +142,29 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
             artistView = itemView.findViewById(R.id.songArtist);
             playing = itemView.findViewById(R.id.playing);
             itemView.setOnClickListener(this);
+            itemView.setOnCreateContextMenuListener(this);
         }
 
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            MenuItem Remove = menu.add(Menu.NONE, 1, 1, "Remove");
+
+            Remove.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    Log.d("TAG", "Removed");
+                    removeSong(mSongs.get(getAdapterPosition()));
+                    return true;
+
+
+
+                }
+            });
+        };
 
         @Override
-        public void onClick(View view) {
-//            mPlayer.playUri(null, mSongs.get(getAdapterPosition()).getmUri(), 0, 0);
+        public void onClick(View v) {
+
         }
     }
 
