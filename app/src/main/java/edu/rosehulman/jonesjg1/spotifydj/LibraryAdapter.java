@@ -85,6 +85,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.LibraryV
             Song newSong = new Song(tempTrack.track.name,tempTrack.track.uri,((MainActivity)mContext).getUserID(), tempTrack.track.artists.get(0).name);
             QAdapter.addSong(newSong);
             ((MainActivity) mContext).changeFragmentNoBS(R.id.queue_fragment);
+            ((MainActivity)mContext).getSupportFragmentManager().popBackStack();
         }
     }
 }
