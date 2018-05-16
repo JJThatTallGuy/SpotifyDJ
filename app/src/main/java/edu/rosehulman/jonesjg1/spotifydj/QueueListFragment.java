@@ -49,32 +49,36 @@ public class QueueListFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder Abuilder = new AlertDialog.Builder(inflater.getContext(),AlertDialog.THEME_TRADITIONAL);
-                View popup = getLayoutInflater().inflate(R.layout.party_create_alert_dialog,null,false);
-                Abuilder.setView(popup);
-                Abuilder.setTitle("Create a Party");
-                final EditText title = popup.findViewById(R.id.name_edit);
-                final EditText password = popup.findViewById(R.id.password_edit);
+                if (!adapter.containsOwner(((MainActivity) getActivity()).getUserID())) {
+                    AlertDialog.Builder Abuilder = new AlertDialog.Builder(inflater.getContext(), AlertDialog.THEME_TRADITIONAL);
+                    View popup = getLayoutInflater().inflate(R.layout.party_create_alert_dialog, null, false);
+                    Abuilder.setView(popup);
+                    Abuilder.setTitle("Create a Party");
+                    final EditText title = popup.findViewById(R.id.name_edit);
+                    final EditText password = popup.findViewById(R.id.password_edit);
 
-                Abuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        String titletext = title.getText().toString();
-                        if (titletext.isEmpty()) {
-                            Toast.makeText(getContext(), "Queue must have a name", Toast.LENGTH_LONG).show();
-                            return;
-                        } else {
-                            String pass = password.getText().toString();
-                            mParty = new Party(titletext, pass, ((MainActivity) getActivity()).getUser());
-                            PartyRef.push().setValue(mParty);
-                            ((MainActivity) getActivity()).setCurrentQueue(mParty);
+                    Abuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            String titletext = title.getText().toString();
+                            if (titletext.isEmpty()) {
+                                Toast.makeText(getContext(), "Queue must have a name", Toast.LENGTH_LONG).show();
+                                return;
+                            } else {
+                                String pass = password.getText().toString();
+                                mParty = new Party(titletext, pass, ((MainActivity) getActivity()).getUser());
+                                PartyRef.push().setValue(mParty);
+                                ((MainActivity) getActivity()).setCurrentQueue(mParty);
+                            }
                         }
-                    }
-                });
+                    });
 
-                Abuilder.setNegativeButton(android.R.string.cancel, null);
+                    Abuilder.setNegativeButton(android.R.string.cancel, null);
 
-                Abuilder.create().show();
+                    Abuilder.create().show();
+                } else {
+                    Toast.makeText(getContext(), "You already own a queue", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
