@@ -159,15 +159,15 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             if (mSongs.get(getAdapterPosition()).getmUserID().equals(((MainActivity) mContext).getUserID()) ||
                     mParty.getmOwner().id.equals(((MainActivity) mContext).getUserID())) {
+                if(getAdapterPosition()==0){
+                    return;
+                }
                 MenuItem Remove = menu.add(Menu.NONE, 1, 1, "Remove");
                 Remove.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         Log.d("TAG", "Removed");
-                        if (getAdapterPosition() == 0) {
-                            handleSkip();
-                            return true;
-                        }
+
                         removeSong(mSongs.get(getAdapterPosition()));
                         return true;
                     }
@@ -196,6 +196,7 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
                 }
 
             }
+
             mSongs.add(song);
             notifyDataSetChanged();
         }
@@ -218,7 +219,12 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
             String key = dataSnapshot.getKey();
             for(Song s : mSongs){
                 if (s.getKey().equals(key)) {
-                    mSongs.remove(s);
+                    if(mSongs.indexOf(s)==0&&mParty.getmOwner().id.equals(((MainActivity)mContext).getUserID())){
+                        handleSkip();
+                    }
+                    else {
+                        mSongs.remove(s);
+                    }
                     notifyDataSetChanged();
                     return;
                 }
