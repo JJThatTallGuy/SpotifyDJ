@@ -93,7 +93,7 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
                 Toast.makeText(mContext, "Song already in queue", Toast.LENGTH_LONG).show();
                 return;
             }
-            if (!((MainActivity) mContext).getUserID().equals(s.getmUserID())) {
+            if (((MainActivity) mContext).getUserID().equals(s.getmUserID()) && !((MainActivity) mContext).getUserID().equals(mParty.getmOwner().id)) {
                     Toast.makeText(mContext, "One song at a time", Toast.LENGTH_LONG).show();
                     return;
 
