@@ -47,13 +47,13 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
         if(savedInstanceState!=null){
             this.loggedin = savedInstanceState.getBoolean("login");
-            if(loggedin){
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_main, new QueueListFragment());
-                ft.commit();
-                return;
+
             }
-        }
+
+         if(this.loggedin){
+            onLoggedIn();
+         }
+         else{
 
 
 
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements
 //        String songuri = tp.tracks.items.get(0).uri;
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
 
-    }
+    }}
 
     public void fetchUserInfo() {
         new AsyncTask<Void, Void, UserPrivate>() {
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLoggedOut() {
         Log.d("MainActivity", "User logged out");
-        this.loggedin = false;
+        //this.loggedin = false;
     }
 
     @Override
