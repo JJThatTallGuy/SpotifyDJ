@@ -74,7 +74,7 @@ public class LibraryFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
-                
+
             }
         });
 
