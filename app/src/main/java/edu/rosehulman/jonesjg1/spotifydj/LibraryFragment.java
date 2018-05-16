@@ -34,6 +34,7 @@ public class LibraryFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private LibraryAdapter mAdapter;
     private boolean mMySongsLoading = false;
+    private int offset=0;
 
     public LibraryFragment() {
         // Required empty public constructor
@@ -67,6 +68,10 @@ public class LibraryFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
+                if(mAdapter.getItemCount()==50) {
+                    mAdapter.clearAll();
+                    loadsongs(++offset);
+                }
             }
         });
 
@@ -74,17 +79,31 @@ public class LibraryFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
+                if(offset==0){
+                    mAdapter.clearAll();
+                    loadsongs(--offset);
+                }
 
             }
         });
 
+
+
+
+        loadsongs(offset);
+//        offset++
+
+        return view;
+    }
+
+    private void loadsongs(int offset){
         SpotifyService SS = ((MainActivity) getActivity()).getWebAPI();
 
 
 
         Map<String, Object> options = new HashMap<>();
-            options.put(SpotifyService.OFFSET, 50);
-            options.put(SpotifyService.LIMIT, 50);
+        options.put(SpotifyService.OFFSET, offset*50);
+        options.put(SpotifyService.LIMIT, 50);
         SS.getMySavedTracks(options,new Callback<Pager<SavedTrack>>() {
             @Override
             public void success(Pager<SavedTrack> savedTrackPager, Response response) {
@@ -106,13 +125,7 @@ public class LibraryFragment extends Fragment {
                 mMySongsLoading = false;
             }
         });
-
-
-
-
-        return view;
     }
-
 
     class getSongTask extends AsyncTask<Void, Void, Void> {
 
