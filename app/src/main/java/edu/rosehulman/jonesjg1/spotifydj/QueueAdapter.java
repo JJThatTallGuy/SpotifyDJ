@@ -43,7 +43,6 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
     private Party mParty;
     private Song curSong;
 
-
     public QueueAdapter(Context context, RecyclerView recyclerView, Player player, Party party) {
         mContext = context;
         mRecyclerView = recyclerView;
@@ -54,8 +53,6 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
 
         sRef = FirebaseDatabase.getInstance().getReference().child("Parties").child(mParty.getKey()).child("Songs");
         sRef.addChildEventListener(new PartyChildEventListener());
-
-
 
 
 
@@ -105,6 +102,11 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
         }
     }
 
+    public void handleSkip() {
+        removeSong(mSongs.get(0));
+        mPlayer.skipToNext(null);
+    }
+
     public void removeSong(Song song){
         sRef.child(song.getKey()).removeValue();
     }
@@ -134,7 +136,6 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
         private TextView nameView;
         private TextView artistView;
         private ImageView playing;
-
 
         public QueueViewHolder(View itemView) {
             super(itemView);

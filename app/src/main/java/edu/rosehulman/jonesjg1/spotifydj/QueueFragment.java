@@ -12,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.FirebaseDatabase;
 import com.spotify.sdk.android.player.Player;
@@ -25,6 +27,7 @@ public class QueueFragment extends Fragment {
     private Player mPlayer;
     private MainActivity mActivity;
     private Button buttonPausePlay;
+    private Party mParty;
 
     private OnFragmentInteractionListener mListener;
 
@@ -45,16 +48,17 @@ public class QueueFragment extends Fragment {
         View view = inflater.inflate(R.layout.queue_fragment, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mPlayer = ((MainActivity) getActivity()).getPlayer();
+        mParty = ((MainActivity) getActivity()).getParty();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
         if (((MainActivity) getActivity()).getParty().getAdapter() != null) {
             recyclerView.setAdapter(((MainActivity) getActivity()).getParty().getAdapter());
-        } else{
-            final QueueAdapter adapter = new QueueAdapter(getContext(), recyclerView, mPlayer, ((MainActivity) getActivity()).getParty());
-        ((MainActivity) getActivity()).getParty().setAdapter(adapter);
-        recyclerView.setAdapter(adapter);
-    }
+        } else {
+            final QueueAdapter adapter = new QueueAdapter(getContext(), recyclerView, mPlayer, mParty);
+            ((MainActivity) getActivity()).getParty().setAdapter(adapter);
+            recyclerView.setAdapter(adapter);
+        }
 
         Button searchbutton = view.findViewById(R.id.search_button);
         searchbutton.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +68,18 @@ public class QueueFragment extends Fragment {
 
             }
         });
+
+        ImageView skipButton = view.findViewById(R.id.skipButton);
+        if (((MainActivity) getActivity()).getUserID().equals(mParty.getmOwner().id)) {
+            skipButton.setVisibility(View.VISIBLE);
+            skipButton.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+                    ((MainActivity) getActivity()).getParty().getAdapter().handleSkip();
+                }
+            });
+        }
 
         buttonPausePlay = view.findViewById(R.id.pause_button);
         buttonPausePlay.setOnClickListener(new View.OnClickListener() {

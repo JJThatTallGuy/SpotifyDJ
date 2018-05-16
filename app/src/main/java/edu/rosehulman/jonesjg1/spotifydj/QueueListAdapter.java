@@ -90,11 +90,17 @@ public class QueueListAdapter extends RecyclerView.Adapter<QueueListAdapter.Queu
             TextView name = popup.findViewById(R.id.queueName);
             TextView numMembers = popup.findViewById(R.id.numMembers);
             final EditText password = popup.findViewById(R.id.password_entry);
+            final TextView passTitle = popup.findViewById(R.id.password_enter_title);
+            final ImageView passIcon = popup.findViewById(R.id.queuelocked);
 
             name.setText(party.getmName());
             numMembers.setText(party.getmMembers()+"");
 
-
+            if (party.getmPass().isEmpty()) {
+                password.setVisibility(View.GONE);
+                passTitle.setVisibility(View.GONE);
+                passIcon.setVisibility(View.INVISIBLE);
+            }
 
             Abuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
