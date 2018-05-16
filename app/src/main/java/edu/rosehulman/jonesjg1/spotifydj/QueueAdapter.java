@@ -108,7 +108,7 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
         }
         if (mSongs.size() == 1) {
             removeSong(mSongs.get(0));
-            mPlayer.pause(null);
+            mPlayer.playUri(null,"spotify:track:3ZbZPKPFMDsKE2pulMaLQq",0,0);
             curSong = null;
         } else {curSong = mSongs.get(1);
             removeSong(mSongs.get(0));
