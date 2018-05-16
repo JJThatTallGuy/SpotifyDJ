@@ -8,4 +8,6 @@ public interface OnFragmentInteractionListener {
 
     void changeFragment(int id);
 
+    void changeFragmentNoBS(int id);
+
 }

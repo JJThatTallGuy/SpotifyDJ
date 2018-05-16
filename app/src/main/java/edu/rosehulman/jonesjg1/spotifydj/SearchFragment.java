@@ -50,6 +50,7 @@ public class SearchFragment extends Fragment {
 
 
         this.songsearch = view.findViewById(R.id.searchview);
+        this.songsearch.setIconified(false);
         this.songsearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {

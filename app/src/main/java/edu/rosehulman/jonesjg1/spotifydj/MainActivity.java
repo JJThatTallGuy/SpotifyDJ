@@ -221,10 +221,39 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    @Override
+    public void changeFragmentNoBS(int id) {
+        Fragment switchTo = null;
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        if (id == R.id.joinFragment) {
+            switchTo = new JoinOrCreateFragment();
+
+        } else if (id == R.id.queue_in_list) {
+            switchTo = new QueueListFragment();
+
+        }
+        else if (id == R.id.queue_fragment) {
+            switchTo = new QueueFragment();
+        }
+
+        if(id == R.id.search_fragment){
+            switchTo = new SearchFragment();
+        }
+
+        if(id==R.id.library_fragment){
+            switchTo = new LibraryFragment();
+        }
+
+        if (switchTo != null) {
+            ft.replace(R.id.fragment_main, switchTo);
+            ft.commit();
+        }
+    }
+
+
     public Party getParty() {
         return party;
     }
 
-    public void changeFragmentSpecial(QueueAdapter qAdapter) {
-    }
 }

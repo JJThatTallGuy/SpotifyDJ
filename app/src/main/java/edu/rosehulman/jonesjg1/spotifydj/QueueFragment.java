@@ -64,7 +64,7 @@ public class QueueFragment extends Fragment {
         searchbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.changeFragment(R.id.search_fragment);
+                mListener.changeFragmentNoBS(R.id.search_fragment);
 
             }
         });
