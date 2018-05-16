@@ -40,6 +40,15 @@ public class QueueListAdapter extends RecyclerView.Adapter<QueueListAdapter.Queu
 
     }
 
+    public boolean containsOwner(String givenId) {
+        for (Party p : mParties) {
+            if (p.getmOwner().id.equals(givenId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void addParty(Party party) {
         mPartiesRef.push().setValue(party);
         notifyDataSetChanged();
