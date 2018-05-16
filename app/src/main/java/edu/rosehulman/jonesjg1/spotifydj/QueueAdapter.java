@@ -43,7 +43,6 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
     private Party mParty;
     private Song curSong;
 
-
     public QueueAdapter(Context context, RecyclerView recyclerView, Player player, Party party) {
         mContext = context;
         mRecyclerView = recyclerView;
@@ -81,6 +80,9 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
 
     }
 
+    public ArrayList<Song> getmSongs() {
+        return mSongs;
+    }
 
     public void addSong(Song song) {
 
