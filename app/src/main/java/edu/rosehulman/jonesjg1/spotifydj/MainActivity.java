@@ -4,6 +4,7 @@ package edu.rosehulman.jonesjg1.spotifydj;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.SyncStateContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -20,8 +21,16 @@ import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Pager;
+import kaaes.spotify.webapi.android.models.SavedTrack;
+import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.UserPrivate;
 import kaaes.spotify.webapi.android.models.UserPublic;
 import retrofit.Callback;
@@ -38,7 +47,8 @@ public class MainActivity extends AppCompatActivity implements
     private SpotifyApi mApi;
     private Party party;
     private UserPublic mUser;
-    private boolean loggedin=false;
+    private boolean loggedin = false;
+    private boolean mMySongsLoading = false;
 
 
     @Override
@@ -54,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements
 //            onLoggedIn();
 //         }
 //         else{
-
 
 
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
@@ -92,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    public SpotifyService getWebAPI(){
+    public SpotifyService getWebAPI() {
         return mSpoty;
     }
 
@@ -110,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements
                         mApi.setAccessToken(response.getAccessToken());
                         fetchUserInfo();
                         mPlayer = spotifyPlayer;
+
                         mPlayer.addConnectionStateCallback(MainActivity.this);
                         mPlayer.addNotificationCallback(MainActivity.this);
                     }
@@ -160,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLoggedIn() {
         Log.d("MainActivity", "User logged in");
-        this.loggedin=true;
+        this.loggedin = true;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_main, new QueueListFragment());
         ft.commit();
@@ -191,15 +201,15 @@ public class MainActivity extends AppCompatActivity implements
         return mPlayer;
     }
 
-    public void play(String uri){
-        this.mPlayer.playUri(null,uri,0,0);
+    public void play(String uri) {
+        this.mPlayer.playUri(null, uri, 0, 0);
     }
 
-    public void queue(String uri){
-        this.mPlayer.queue(null,uri);
+    public void queue(String uri) {
+        this.mPlayer.queue(null, uri);
     }
-    
-    public void setCurrentQueue(Party party){
+
+    public void setCurrentQueue(Party party) {
         this.party = party;
     }
 
@@ -214,16 +224,15 @@ public class MainActivity extends AppCompatActivity implements
         } else if (id == R.id.queue_in_list) {
             switchTo = new QueueListFragment();
 
-        }
-        else if (id == R.id.queue_fragment) {
+        } else if (id == R.id.queue_fragment) {
             switchTo = new QueueFragment();
         }
 
-        if(id == R.id.search_fragment){
+        if (id == R.id.search_fragment) {
             switchTo = new SearchFragment();
         }
 
-        if(id==R.id.library_fragment){
+        if (id == R.id.library_fragment) {
             switchTo = new LibraryFragment();
         }
 
@@ -245,16 +254,15 @@ public class MainActivity extends AppCompatActivity implements
         } else if (id == R.id.queue_in_list) {
             switchTo = new QueueListFragment();
 
-        }
-        else if (id == R.id.queue_fragment) {
+        } else if (id == R.id.queue_fragment) {
             switchTo = new QueueFragment();
         }
 
-        if(id == R.id.search_fragment){
+        if (id == R.id.search_fragment) {
             switchTo = new SearchFragment();
         }
 
-        if(id==R.id.library_fragment){
+        if (id == R.id.library_fragment) {
             switchTo = new LibraryFragment();
         }
 
@@ -263,6 +271,8 @@ public class MainActivity extends AppCompatActivity implements
             ft.commit();
         }
     }
+
+
 
 
     public Party getParty() {

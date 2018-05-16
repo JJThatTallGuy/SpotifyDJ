@@ -1,7 +1,6 @@
 package edu.rosehulman.jonesjg1.spotifydj;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,14 +9,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.SavedTrack;
-import kaaes.spotify.webapi.android.models.TracksPager;
-
-
+import kaaes.spotify.webapi.android.models.Track;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class LibraryFragment extends Fragment {
@@ -27,11 +31,11 @@ public class LibraryFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private LibraryAdapter mAdapter;
+    private boolean mMySongsLoading = false;
+
     public LibraryFragment() {
         // Required empty public constructor
     }
-
-
 
 
     @Override
@@ -46,7 +50,7 @@ public class LibraryFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_library, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.library_recycler_view);
-        this.mAdapter = new LibraryAdapter(getContext(), recyclerView, ((MainActivity)getActivity()).getParty().getAdapter());
+        this.mAdapter = new LibraryAdapter(getContext(), recyclerView, ((MainActivity) getActivity()).getParty().getAdapter());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
@@ -57,27 +61,51 @@ public class LibraryFragment extends Fragment {
     }
 
 
-
-    class getSongTask extends AsyncTask<Void, Void, Pager<SavedTrack>> {
+    class getSongTask extends AsyncTask<Void, Void, Void> {
 
 
         @Override
-        protected Pager<SavedTrack> doInBackground(Void... voids) {
-            SpotifyService SS = ((MainActivity)getActivity()).getWebAPI();
+        protected Void doInBackground(Void... voids) {
+            SpotifyService SS = ((MainActivity) getActivity()).getWebAPI();
 
-            Pager<SavedTrack> tp = SS.getMySavedTracks();
-            return tp;
-        }
-
-        protected void onPostExecute(Pager<SavedTrack> tp){
-            super.onPostExecute(tp);
-            for(int i =0;i<tp.items.size();i++){
-                mAdapter.add(tp.items.get(i));
-
-
+            if (mMySongsLoading) {
+                return null;
             }
+
+            mMySongsLoading = true;
+            Map<String, Object> options = new HashMap<>();
+            options.put(SpotifyService.OFFSET, 0);
+            options.put(SpotifyService.LIMIT, 50);
+            SS.getMySavedTracks(options, new Callback<Pager<SavedTrack>>() {
+                @Override
+                public void success(Pager<SavedTrack> savedTrackPager, Response response) {
+                    List<Track> tracks = new ArrayList<>(savedTrackPager.items.size());
+                    for (SavedTrack savedTrack : savedTrackPager.items) {
+                        mAdapter.add(savedTrack);
+                    }
+//                  mAdapter.addAll(savedTrackPager.total, mSavedSongsAdapter.size(), tracks);
+                    mMySongsLoading = false;
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    mMySongsLoading = false;
+                }
+            });
+            return null;
         }
+
     }
+
+//        protected void onPostExecute(Pager<Track> tp){
+//            super.onPostExecute(tp);
+//            for(int i =0;i<tp.items.size();i++){
+//                mAdapter.addAll(tp.items.get(i));
+
+
+//            }
+
+
 
 
     @Override
