@@ -113,11 +113,13 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
 
             mPlayer.playUri(null, curSong.getmUri(), 0, 0);
         }
+        notifyDataSetChanged();
 
     }
 
     public void removeSong(Song song){
         sRef.child(song.getKey()).removeValue();
+        notifyDataSetChanged();
     }
 
     @Override
@@ -222,9 +224,7 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
                     if(mSongs.indexOf(s)==0&&mParty.getmOwner().id.equals(((MainActivity)mContext).getUserID())){
                         handleSkip();
                     }
-                    else {
-                        mSongs.remove(s);
-                    }
+                    mSongs.remove(s);
                     notifyDataSetChanged();
                     return;
                 }
