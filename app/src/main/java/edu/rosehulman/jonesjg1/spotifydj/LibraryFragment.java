@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,6 +60,23 @@ public class LibraryFragment extends Fragment {
         recyclerView.setAdapter(this.mAdapter);
 //        new getSongTask().execute();
 
+        Button nextButton = view.findViewById(R.id.rightButton);
+        Button prevButton = view.findViewById(R.id.leftButton);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        prevButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                
+            }
+        });
 
         SpotifyService SS = ((MainActivity) getActivity()).getWebAPI();
 
