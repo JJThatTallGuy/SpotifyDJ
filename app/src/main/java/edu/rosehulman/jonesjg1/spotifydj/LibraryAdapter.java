@@ -2,6 +2,7 @@ package edu.rosehulman.jonesjg1.spotifydj;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,12 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.LibraryV
         mTrackList.add(t);
         notifyDataSetChanged();
         mRecyclerView.scrollToPosition(0);
+    }
+
+    public void print(){
+//        for(int i =0;i< mTrackList.size();i++){
+            Log.d("TAG",mTrackList.size()+"");
+//        }
     }
 
     @Override

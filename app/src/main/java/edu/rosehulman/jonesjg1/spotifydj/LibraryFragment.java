@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +57,41 @@ public class LibraryFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         recyclerView.setAdapter(this.mAdapter);
-        new getSongTask().execute();
+//        new getSongTask().execute();
+
+
+        SpotifyService SS = ((MainActivity) getActivity()).getWebAPI();
+
+
+
+        Map<String, Object> options = new HashMap<>();
+            options.put(SpotifyService.OFFSET, 50);
+            options.put(SpotifyService.LIMIT, 50);
+        SS.getMySavedTracks(options,new Callback<Pager<SavedTrack>>() {
+            @Override
+            public void success(Pager<SavedTrack> savedTrackPager, Response response) {
+
+
+//                List<Track> tracks = new ArrayList<>(savedTrackPager.items.size());
+                for (SavedTrack savedTrack : savedTrackPager.items) {
+                    mAdapter.add(savedTrack);
+                }
+//                  mAdapter.addAll(savedTrackPager.total, mSavedSongsAdapter.size(), tracks);
+
+                Log.d("TAGGGG" ,mAdapter.mTrackList.size()+"");
+                mMySongsLoading = false;
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d("WIN",error+"");
+                mMySongsLoading = false;
+            }
+        });
+
+
+
+
         return view;
     }
 
@@ -74,9 +109,9 @@ public class LibraryFragment extends Fragment {
 
             mMySongsLoading = true;
             Map<String, Object> options = new HashMap<>();
-            options.put(SpotifyService.OFFSET, 0);
-            options.put(SpotifyService.LIMIT, 50);
-            SS.getMySavedTracks(options, new Callback<Pager<SavedTrack>>() {
+//            options.put(SpotifyService.OFFSET, 0);
+//            options.put(SpotifyService.LIMIT, 50);
+            SS.getMySavedTracks(new Callback<Pager<SavedTrack>>() {
                 @Override
                 public void success(Pager<SavedTrack> savedTrackPager, Response response) {
                     List<Track> tracks = new ArrayList<>(savedTrackPager.items.size());
@@ -84,6 +119,8 @@ public class LibraryFragment extends Fragment {
                         mAdapter.add(savedTrack);
                     }
 //                  mAdapter.addAll(savedTrackPager.total, mSavedSongsAdapter.size(), tracks);
+
+                    Log.d("TAG" ,mAdapter.mTrackList.size()+"");
                     mMySongsLoading = false;
                 }
 

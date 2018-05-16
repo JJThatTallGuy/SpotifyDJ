@@ -67,10 +67,11 @@ public class MainActivity extends AppCompatActivity implements
 
 
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
-        builder.setScopes(new String[]{"user-read-private", "streaming"});
+        builder.setScopes(new String[]{"user-read-private", "streaming","user-library-read","user-modify-playback-state"});
         AuthenticationRequest request = builder.build();
         mApi = new SpotifyApi();
         mSpoty = mApi.getService();
+
 //        TracksPager tp = mSpoty.searchTracks("Buddy Holly");
 //        String songuri = tp.tracks.items.get(0).uri;
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
@@ -119,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements
                         mApi.setAccessToken(response.getAccessToken());
                         fetchUserInfo();
                         mPlayer = spotifyPlayer;
+
 
                         mPlayer.addConnectionStateCallback(MainActivity.this);
                         mPlayer.addNotificationCallback(MainActivity.this);
