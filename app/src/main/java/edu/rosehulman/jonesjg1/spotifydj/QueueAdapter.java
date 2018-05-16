@@ -43,6 +43,7 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
     private Party mParty;
     private Song curSong;
 
+
     public QueueAdapter(Context context, RecyclerView recyclerView, Player player, Party party) {
         mContext = context;
         mRecyclerView = recyclerView;
@@ -90,11 +91,10 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
                 Toast.makeText(mContext, "Song already in queue", Toast.LENGTH_LONG).show();
                 return;
             }
-            if (!((MainActivity) mContext).getUserID().equals(song.getmUserID())) {
-                if (s.getmUserID().equals(song.getmUserID())) {
+            if (!((MainActivity) mContext).getUserID().equals(s.getmUserID())) {
                     Toast.makeText(mContext, "One song at a time", Toast.LENGTH_LONG).show();
                     return;
-                }
+
             }
         }
         sRef.push().setValue(song);
@@ -164,16 +164,20 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
                 if(getAdapterPosition()==0){
                     return;
                 }
-                MenuItem Remove = menu.add(Menu.NONE, 1, 1, "Remove");
-                Remove.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        Log.d("TAG", "Removed");
+                else {
+                    MenuItem Remove = menu.add(Menu.NONE, 1, 1, "Remove");
+                    Remove.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                                                          @Override
+                                                          public boolean onMenuItemClick(MenuItem item) {
+                                                              Log.d("TAG", "Removed");
 
-                        removeSong(mSongs.get(getAdapterPosition()));
-                        return true;
-                    }
-                });
+                                                              removeSong(mSongs.get(getAdapterPosition()));
+                                                              return true;
+                                                          }
+
+                                                      }
+                    );
+                }
             }
         }
 

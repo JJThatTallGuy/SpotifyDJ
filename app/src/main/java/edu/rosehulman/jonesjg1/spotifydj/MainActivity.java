@@ -38,12 +38,24 @@ public class MainActivity extends AppCompatActivity implements
     private SpotifyApi mApi;
     private Party party;
     private UserPublic mUser;
+    private boolean loggedin=false;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if(savedInstanceState!=null){
+            this.loggedin = savedInstanceState.getBoolean("login");
+            if(loggedin){
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_main, new QueueListFragment());
+                ft.commit();
+                return;
+            }
+        }
+
+
 
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
         builder.setScopes(new String[]{"user-read-private", "streaming"});
@@ -148,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLoggedIn() {
         Log.d("MainActivity", "User logged in");
-
+        this.loggedin=true;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_main, new QueueListFragment());
         ft.commit();
@@ -157,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLoggedOut() {
         Log.d("MainActivity", "User logged out");
+        this.loggedin = false;
     }
 
     @Override
@@ -254,6 +267,12 @@ public class MainActivity extends AppCompatActivity implements
 
     public Party getParty() {
         return party;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("login",this.loggedin);
     }
 
 }
