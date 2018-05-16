@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements
 
 
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
-        builder.setScopes(new String[]{"user-read-private", "streaming","user-library-read","user-modify-playback-state"});
+        builder.setScopes(new String[]{"user-read-private", "streaming","user-library-read"});
         AuthenticationRequest request = builder.build();
         mApi = new SpotifyApi();
         mSpoty = mApi.getService();
