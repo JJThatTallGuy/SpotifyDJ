@@ -10,17 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.SavedTrack;
-import kaaes.spotify.webapi.android.models.Track;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -35,6 +31,8 @@ public class LibraryFragment extends Fragment {
     private LibraryAdapter mAdapter;
     private boolean mMySongsLoading = false;
     private int offset=0;
+    private int counter=0;
+    private int counter2=0;
 
     public LibraryFragment() {
         // Required empty public constructor
@@ -59,46 +57,24 @@ public class LibraryFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         recyclerView.setAdapter(this.mAdapter);
-//        new getSongTask().execute();
 
-        Button nextButton = view.findViewById(R.id.rightButton);
-        Button prevButton = view.findViewById(R.id.leftButton);
-        nextButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                if(mAdapter.getItemCount()==50) {
-                    mAdapter.clearAll();
-                    loadsongs(++offset);
-                }
-            }
-        });
-
-        prevButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                if(offset==0){
-                    mAdapter.clearAll();
-                    loadsongs(--offset);
-                }
-
-            }
-        });
+       new getSongTask().execute();
 
 
 
 
-        loadsongs(offset);
+
+
+
+
 //        offset++
-
+        Log.d("COUNT",counter2+"");
         return view;
     }
 
     private void loadsongs(int offset){
         SpotifyService SS = ((MainActivity) getActivity()).getWebAPI();
-
+        counter=0;
 
 
         Map<String, Object> options = new HashMap<>();
@@ -111,7 +87,10 @@ public class LibraryFragment extends Fragment {
 
 //                List<Track> tracks = new ArrayList<>(savedTrackPager.items.size());
                 for (SavedTrack savedTrack : savedTrackPager.items) {
+                    counter+=1;
+                    counter2++;
                     mAdapter.add(savedTrack);
+
                 }
 //                  mAdapter.addAll(savedTrackPager.total, mSavedSongsAdapter.size(), tracks);
 
@@ -132,46 +111,15 @@ public class LibraryFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            SpotifyService SS = ((MainActivity) getActivity()).getWebAPI();
-
-            if (mMySongsLoading) {
-                return null;
+            for (int i = 0; i < 68; i++) {
+                loadsongs(offset++);
             }
-
-            mMySongsLoading = true;
-            Map<String, Object> options = new HashMap<>();
-//            options.put(SpotifyService.OFFSET, 0);
-//            options.put(SpotifyService.LIMIT, 50);
-            SS.getMySavedTracks(new Callback<Pager<SavedTrack>>() {
-                @Override
-                public void success(Pager<SavedTrack> savedTrackPager, Response response) {
-                    List<Track> tracks = new ArrayList<>(savedTrackPager.items.size());
-                    for (SavedTrack savedTrack : savedTrackPager.items) {
-                        mAdapter.add(savedTrack);
-                    }
-//                  mAdapter.addAll(savedTrackPager.total, mSavedSongsAdapter.size(), tracks);
-
-                    Log.d("TAG" ,mAdapter.mTrackList.size()+"");
-                    mMySongsLoading = false;
-                }
-
-                @Override
-                public void failure(RetrofitError error) {
-                    mMySongsLoading = false;
-                }
-            });
             return null;
         }
 
     }
 
-//        protected void onPostExecute(Pager<Track> tp){
-//            super.onPostExecute(tp);
-//            for(int i =0;i<tp.items.size();i++){
-//                mAdapter.addAll(tp.items.get(i));
 
-
-//            }
 
 
 

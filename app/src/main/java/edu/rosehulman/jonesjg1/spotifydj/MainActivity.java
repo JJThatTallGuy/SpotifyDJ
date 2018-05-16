@@ -55,27 +55,27 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        if(savedInstanceState!=null){
-//            this.loggedin = savedInstanceState.getBoolean("login");
-//
-//            }
-//
-//         if(this.loggedin){
-//            onLoggedIn();
-//         }
-//         else{
+        if(savedInstanceState!=null){
+            this.loggedin = savedInstanceState.getBoolean("login");
+
+            }
+
+         if(this.loggedin){
+            onLoggedIn();
+         }
+         else {
 
 
-        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
-        builder.setScopes(new String[]{"user-read-private", "streaming","user-library-read"});
-        AuthenticationRequest request = builder.build();
-        mApi = new SpotifyApi();
-        mSpoty = mApi.getService();
+             AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
+             builder.setScopes(new String[]{"user-read-private", "streaming", "user-library-read"});
+             AuthenticationRequest request = builder.build();
+             mApi = new SpotifyApi();
+             mSpoty = mApi.getService();
 
 //        TracksPager tp = mSpoty.searchTracks("Buddy Holly");
 //        String songuri = tp.tracks.items.get(0).uri;
-        AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
-
+             AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
+         }
     }
 
     public void fetchUserInfo() {
