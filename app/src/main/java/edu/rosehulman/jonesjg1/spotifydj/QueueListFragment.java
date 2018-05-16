@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -53,17 +54,21 @@ public class QueueListFragment extends Fragment {
                 Abuilder.setView(popup);
                 Abuilder.setTitle("Create a Party");
                 final EditText title = popup.findViewById(R.id.name_edit);
-
                 final EditText password = popup.findViewById(R.id.password_edit);
 
                 Abuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String titletext = title.getText().toString();
-                        String pass = password.getText().toString();
-                        mParty = new Party(titletext, pass, ((MainActivity) getActivity()).getUser());
-                        PartyRef.push().setValue(mParty);
-                        ((MainActivity) getActivity()).setCurrentQueue(mParty);
+                        if (titletext.isEmpty()) {
+                            Toast.makeText(getContext(), "Queue must have a name", Toast.LENGTH_LONG).show();
+                            return;
+                        } else {
+                            String pass = password.getText().toString();
+                            mParty = new Party(titletext, pass, ((MainActivity) getActivity()).getUser());
+                            PartyRef.push().setValue(mParty);
+                            ((MainActivity) getActivity()).setCurrentQueue(mParty);
+                        }
                     }
                 });
 

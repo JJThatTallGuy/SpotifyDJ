@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -59,7 +60,6 @@ public class QueueListAdapter extends RecyclerView.Adapter<QueueListAdapter.Queu
     public void onBindViewHolder(QueueListViewHolder holder, int position) {
         holder.party = mParties.get(position);
         holder.mName.setText(mParties.get(position).getmName());
-        holder.mMembers.setText(mParties.get(position).getmMembers() + "");
         holder.mOwner.setText("Owner: " + mParties.get(position).getmOwner().display_name);
         if (!mParties.get(position).ismIsPasswordProtected()) {
             holder.mLocked.setVisibility(View.INVISIBLE);
@@ -75,14 +75,12 @@ public class QueueListAdapter extends RecyclerView.Adapter<QueueListAdapter.Queu
         private Party party;
         private TextView mName;
         private ImageView mLocked;
-        private TextView mMembers;
         private TextView mOwner;
 
         public QueueListViewHolder(View itemView) {
             super(itemView);
             mName = itemView.findViewById(R.id.queueName);
             mLocked = itemView.findViewById(R.id.queuelocked);
-            mMembers = itemView.findViewById(R.id.numMembers);
             mOwner = itemView.findViewById(R.id.ownerName);
             itemView.setOnClickListener(this);
             itemView.setOnCreateContextMenuListener(this);
@@ -90,40 +88,43 @@ public class QueueListAdapter extends RecyclerView.Adapter<QueueListAdapter.Queu
 
         @Override
         public void onClick(View view) {
-            AlertDialog.Builder Abuilder = new AlertDialog.Builder(view.getContext(),AlertDialog.THEME_TRADITIONAL);
-            Abuilder.setTitle("Party Info");
-            View popup = LayoutInflater.from(mContext).inflate(R.layout.party_signin_alert_dialog,null ,false);
-            Abuilder.setView(popup);
-
-            TextView name = popup.findViewById(R.id.queueName);
-            TextView numMembers = popup.findViewById(R.id.numMembers);
-            final EditText password = popup.findViewById(R.id.password_entry);
-            final TextView passTitle = popup.findViewById(R.id.password_enter_title);
-            final ImageView passIcon = popup.findViewById(R.id.queuelocked);
-
-            name.setText(party.getmName());
-            numMembers.setText(party.getmMembers()+"");
-
             if (party.getmPass().isEmpty()) {
-                password.setVisibility(View.GONE);
-                passTitle.setVisibility(View.GONE);
-                passIcon.setVisibility(View.INVISIBLE);
-            }
+                ((MainActivity) mContext).setCurrentQueue(party);
+                ((MainActivity) mContext).changeFragment(R.id.queue_fragment);
+            } else {
+                AlertDialog.Builder Abuilder = new AlertDialog.Builder(view.getContext(), AlertDialog.THEME_TRADITIONAL);
+                Abuilder.setTitle("Party Info");
+                View popup = LayoutInflater.from(mContext).inflate(R.layout.party_signin_alert_dialog, null, false);
+                Abuilder.setView(popup);
 
-            Abuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    if (party.getmPass().isEmpty() || password.getText().toString().equals(party.getmPass())) {
-                        ((MainActivity) mContext).changeFragment(R.id.queue_fragment);
-                        ((MainActivity) mContext).setCurrentQueue(party);
-                    } else {
-                        Toast.makeText(mContext, "Password Incorrect", Toast.LENGTH_LONG).show();
-                    }
+                TextView name = popup.findViewById(R.id.queueName);
+                final EditText password = popup.findViewById(R.id.password_entry);
+                final TextView passTitle = popup.findViewById(R.id.password_enter_title);
+                final ImageView passIcon = popup.findViewById(R.id.queuelocked);
+
+                name.setText(party.getmName());
+
+                if (party.getmPass().isEmpty()) {
+                    password.setVisibility(View.GONE);
+                    passTitle.setVisibility(View.GONE);
+                    passIcon.setVisibility(View.INVISIBLE);
                 }
-            });
 
-            Abuilder.setNegativeButton(android.R.string.cancel,null);
-            Abuilder.create().show();
+                Abuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (party.getmPass().isEmpty() || password.getText().toString().equals(party.getmPass())) {
+                            ((MainActivity) mContext).changeFragment(R.id.queue_fragment);
+                            ((MainActivity) mContext).setCurrentQueue(party);
+                        } else {
+                            Toast.makeText(mContext, "Password Incorrect", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+                Abuilder.setNegativeButton(android.R.string.cancel, null);
+                Abuilder.create().show();
+            }
         }
 
         @Override
