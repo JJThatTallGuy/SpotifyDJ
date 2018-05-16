@@ -41,6 +41,9 @@ public class QueueListFragment extends Fragment {
         this.PartyRef = FirebaseDatabase.getInstance().getReference().child("Parties");
         this.PartyRef.keepSynced(true);
 
+        final QueueListAdapter adapter = new QueueListAdapter(getContext(), recyclerView);
+        recyclerView.setAdapter(adapter);
+
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,9 +72,6 @@ public class QueueListFragment extends Fragment {
                 Abuilder.create().show();
             }
         });
-
-        final QueueListAdapter adapter = new QueueListAdapter(getContext(), recyclerView);
-        recyclerView.setAdapter(adapter);
 
         return view;
     }

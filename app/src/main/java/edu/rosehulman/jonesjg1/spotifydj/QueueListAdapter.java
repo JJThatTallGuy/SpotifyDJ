@@ -4,7 +4,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -31,7 +34,7 @@ public class QueueListAdapter extends RecyclerView.Adapter<QueueListAdapter.Queu
         mContext = context;
         mRecyclerView = recyclerView;
         mParties = new ArrayList<>();
-        this.mPartiesRef = FirebaseDatabase.getInstance().getReference().child("Parties");
+        mPartiesRef = FirebaseDatabase.getInstance().getReference().child("Parties");
         mPartiesRef.addChildEventListener(new PartyChildEventListener());
 
     }
@@ -40,6 +43,10 @@ public class QueueListAdapter extends RecyclerView.Adapter<QueueListAdapter.Queu
         mPartiesRef.push().setValue(party);
         notifyDataSetChanged();
         mRecyclerView.scrollToPosition(0);
+    }
+
+    public void removeParty(Party party) {
+        mPartiesRef.child(party.getKey()).removeValue();
     }
 
     @Override
@@ -64,7 +71,7 @@ public class QueueListAdapter extends RecyclerView.Adapter<QueueListAdapter.Queu
         return mParties.size();
     }
 
-    public class QueueListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class QueueListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
         private Party party;
         private TextView mName;
         private ImageView mLocked;
@@ -78,6 +85,7 @@ public class QueueListAdapter extends RecyclerView.Adapter<QueueListAdapter.Queu
             mMembers = itemView.findViewById(R.id.numMembers);
             mOwner = itemView.findViewById(R.id.ownerName);
             itemView.setOnClickListener(this);
+            itemView.setOnCreateContextMenuListener(this);
         }
 
         @Override
@@ -117,6 +125,21 @@ public class QueueListAdapter extends RecyclerView.Adapter<QueueListAdapter.Queu
             Abuilder.setNegativeButton(android.R.string.cancel,null);
             Abuilder.create().show();
         }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+            if (mParties.get(getAdapterPosition()).getmOwner().id.equals(((MainActivity) mContext).getUserID())) {
+                MenuItem Remove = menu.add(Menu.NONE, 1, 1, "Remove");
+                Remove.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        removeParty(mParties.get(getAdapterPosition()));
+//                        Toast.makeText(mContext, mParties.get(getAdapterPosition()).getKey(), Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+            }
+        }
     }
 
     private class PartyChildEventListener implements ChildEventListener {
@@ -145,10 +168,12 @@ public class QueueListAdapter extends RecyclerView.Adapter<QueueListAdapter.Queu
         @Override
         public void onChildRemoved(DataSnapshot dataSnapshot) {
             String key = dataSnapshot.getKey();
-            for(Party p : mParties){
-                mParties.remove(p);
-                notifyDataSetChanged();
-                return;
+            for(Party p : mParties) {
+                if (p.getKey().equals(key)) {
+                    mParties.remove(p);
+                    notifyDataSetChanged();
+                    return;
+                }
             }
         }
 

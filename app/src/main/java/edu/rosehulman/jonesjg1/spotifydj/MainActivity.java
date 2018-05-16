@@ -149,7 +149,9 @@ public class MainActivity extends AppCompatActivity implements
     public void onLoggedIn() {
         Log.d("MainActivity", "User logged in");
 
-        changeFragment(R.id.queue_in_list);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_main, new QueueListFragment());
+        ft.commit();
     }
 
     @Override

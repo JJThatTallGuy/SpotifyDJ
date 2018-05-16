@@ -157,20 +157,23 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            MenuItem Remove = menu.add(Menu.NONE, 1, 1, "Remove");
-
-            Remove.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    Log.d("TAG", "Removed");
-                    removeSong(mSongs.get(getAdapterPosition()));
-                    return true;
-
-
-
-                }
-            });
-        };
+            if (mSongs.get(getAdapterPosition()).getmUserID().equals(((MainActivity) mContext).getUserID()) ||
+                    mParty.getmOwner().id.equals(((MainActivity) mContext).getUserID())) {
+                MenuItem Remove = menu.add(Menu.NONE, 1, 1, "Remove");
+                Remove.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Log.d("TAG", "Removed");
+                        if (getAdapterPosition() == 0) {
+                            handleSkip();
+                            return true;
+                        }
+                        removeSong(mSongs.get(getAdapterPosition()));
+                        return true;
+                    }
+                });
+            }
+        }
 
         @Override
         public void onClick(View v) {
