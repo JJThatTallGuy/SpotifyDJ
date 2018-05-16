@@ -82,18 +82,21 @@ public class QueueFragment extends Fragment {
         }
 
         buttonPausePlay = view.findViewById(R.id.pause_button);
-        buttonPausePlay.setOnClickListener(new View.OnClickListener() {
+        if (((MainActivity) getActivity()).getUserID().equals(mParty.getmOwner().id)) {
+            buttonPausePlay.setVisibility(View.VISIBLE);
+            buttonPausePlay.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View view) {
-                if (mPlayer.getPlaybackState().isPlaying) {
-                    mPlayer.pause(null);
-                } else {
-                    mPlayer.resume(null);
+                @Override
+                public void onClick(View view) {
+                    if (mPlayer.getPlaybackState().isPlaying) {
+                        mPlayer.pause(null);
+                    } else {
+                        mPlayer.resume(null);
+                    }
+                    updatePausePlay();
                 }
-                updatePausePlay();
-            }
-        });
+            });
+        }
 
        Button buttonLibrary = view.findViewById(R.id.library_button);
         buttonLibrary.setOnClickListener(new View.OnClickListener() {

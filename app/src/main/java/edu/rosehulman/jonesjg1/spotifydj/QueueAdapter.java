@@ -55,26 +55,20 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
         sRef.addChildEventListener(new PartyChildEventListener());
 
 
-
         mPlayer.addNotificationCallback(new Player.NotificationCallback() {
             @Override
             public void onPlaybackEvent(PlayerEvent playerEvent) {
-                if(playerEvent.equals(PlayerEvent.kSpPlaybackNotifyTrackChanged)){
-
-
-//                    sRef.child(mSongs.get(0).getKey()).removeValue();
-                    if(curSong != null){
-                        sRef.child(curSong.getKey()).removeValue();
-                        if(mSongs.size()>=1) {
-                            curSong = mSongs.get(1);
-                        }
-                        else{
-                            curSong = null;
-                        }
+//                if(playerEvent.equals(PlayerEvent.kSpPlaybackNotifyTrackChanged)){
+                if (playerEvent.equals(PlayerEvent.kSpPlaybackNotifyAudioDeliveryDone)) {
+                    if (mSongs.size() == 1) {
+                        removeSong(curSong);
+                        curSong = null;
+                    } else if (mSongs.size() > 1) {
+                        curSong = mSongs.get(1);
+                        removeSong(mSongs.get(0));
+                        mPlayer.playUri(null, curSong.getmUri(), 0, 0);
                     }
-                    else{
-                        curSong = mSongs.get(0);
-                    }
+
                 }
             }
 
@@ -94,17 +88,30 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
 
 
                 Toast.makeText(mContext, "Song already in queue", Toast.LENGTH_LONG).show();
-            } else {
-                sRef.push().setValue(song);
-
-                notifyDataSetChanged();
+                return;
             }
+//            if (s.getmUserID().equals(song.getmUserID())) {
+//                Toast.makeText(mContext, "One song at a time", Toast.LENGTH_LONG).show();
+//                return;
+//            }
         }
+        sRef.push().setValue(song);
     }
 
     public void handleSkip() {
-        removeSong(mSongs.get(0));
-        mPlayer.skipToNext(null);
+        if (mSongs.size() == 0) {
+            return;
+        }
+        if (mSongs.size() == 1) {
+            removeSong(mSongs.get(0));
+            mPlayer.pause(null);
+            curSong = null;
+        } else {curSong = mSongs.get(1);
+            removeSong(mSongs.get(0));
+
+            mPlayer.playUri(null, curSong.getmUri(), 0, 0);
+        }
+
     }
 
     public void removeSong(Song song){
@@ -179,11 +186,8 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
 
             if (mParty.getmOwner().id.equals(((MainActivity) mContext).getUserID())) {
                 if (mSongs.size()==0) {
+                    curSong = song;
                     mPlayer.playUri(null, song.getmUri(), 0, 0);
-                }
-                else{
-                    mPlayer.queue(null, song.getmUri());
-
                 }
 
             }
@@ -208,9 +212,11 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueViewHol
         public void onChildRemoved(DataSnapshot dataSnapshot) {
             String key = dataSnapshot.getKey();
             for(Song s : mSongs){
-                mSongs.remove(s);
-                notifyDataSetChanged();
-                return;
+                if (s.getKey().equals(key)) {
+                    mSongs.remove(s);
+                    notifyDataSetChanged();
+                    return;
+                }
             }
         }
 
