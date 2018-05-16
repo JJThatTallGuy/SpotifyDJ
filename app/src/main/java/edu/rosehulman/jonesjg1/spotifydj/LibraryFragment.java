@@ -57,8 +57,12 @@ public class LibraryFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         recyclerView.setAdapter(this.mAdapter);
-
-       new getSongTask().execute();
+        if(((MainActivity)getActivity()).getSongs()==null) {
+            new getSongTask().execute();
+        }
+        else{
+            this.mAdapter.mTrackList = ((MainActivity)getActivity()).getSongs();
+        }
 
 
 
@@ -114,6 +118,7 @@ public class LibraryFragment extends Fragment {
             for (int i = 0; i < 68; i++) {
                 loadsongs(offset++);
             }
+            ((MainActivity)getActivity()).setSongs(mAdapter.mTrackList);
             return null;
         }
 

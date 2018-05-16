@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements
     private UserPublic mUser;
     private boolean loggedin = false;
     private boolean mMySongsLoading = false;
+    private ArrayList<SavedTrack> savedTracks;
 
 
     @Override
@@ -147,6 +148,13 @@ public class MainActivity extends AppCompatActivity implements
     protected void onDestroy() {
         Spotify.destroyPlayer(this);
         super.onDestroy();
+    }
+
+    public ArrayList<SavedTrack> getSongs(){
+        return this.savedTracks;
+    }
+    public void setSongs(ArrayList<SavedTrack> savedTracks){
+        this.savedTracks = savedTracks;
     }
 
     @Override

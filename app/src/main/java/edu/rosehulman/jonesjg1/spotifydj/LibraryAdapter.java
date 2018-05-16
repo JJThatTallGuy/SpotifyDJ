@@ -18,7 +18,7 @@ import kaaes.spotify.webapi.android.models.Track;
  */
 
 public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.LibraryViewHolder> {
-    ArrayList<SavedTrack> mTrackList = new ArrayList<SavedTrack>();
+    public ArrayList<SavedTrack> mTrackList = new ArrayList<SavedTrack>();
     private Context mContext;
     private QueueAdapter QAdapter;
     private RecyclerView mRecyclerView;
