@@ -45,15 +45,15 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if(savedInstanceState!=null){
-            this.loggedin = savedInstanceState.getBoolean("login");
-
-            }
-
-         if(this.loggedin){
-            onLoggedIn();
-         }
-         else{
+//        if(savedInstanceState!=null){
+//            this.loggedin = savedInstanceState.getBoolean("login");
+//
+//            }
+//
+//         if(this.loggedin){
+//            onLoggedIn();
+//         }
+//         else{
 
 
 
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements
 //        String songuri = tp.tracks.items.get(0).uri;
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
 
-    }}
+    }
 
     public void fetchUserInfo() {
         new AsyncTask<Void, Void, UserPrivate>() {
