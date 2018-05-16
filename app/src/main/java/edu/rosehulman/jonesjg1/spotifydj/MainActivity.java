@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements
     public void onLoggedIn() {
         Log.d("MainActivity", "User logged in");
 
-        changeFragment(R.id.joinFragment);
+        changeFragment(R.id.queue_in_list);
     }
 
     @Override
